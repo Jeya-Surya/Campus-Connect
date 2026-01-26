@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Campus Connect — Mentorship</title>
+
+    <link rel="stylesheet" href="styles.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        .role-container {
+          display: flex;
+          gap: 40px;
+          justify-content: center;
+          margin-top: 40px;
+          flex-wrap: wrap;
+        }
+
+        .role-card {
+          width: 320px;
+          background: var(--card-bg, #ffffff);
+          border-radius: 18px;
+          padding: 30px;
+          text-align: center;
+          box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+        }
+
+        body.dark-theme .role-card {
+          background: #1f1f1f;
+        }
+
+        .role-card h3 {
+          margin-top: 15px;
+          margin-bottom: 10px;
+        }
+
+        .role-card p {
+          color: var(--text-muted, #6c757d);
+          font-size: 0.95rem;
+        }
+
+        .continue-btn {
+          margin-top: 18px;
+          width: 100%;
+          padding: 12px;
+          border-radius: 10px;
+          border: none;
+          cursor: pointer;
+          font-weight: 600;
+          background: linear-gradient(90deg,#6a5cff,#3b82f6);
+          color: #fff;
+        }
+
+        .continue-btn:hover {
+          opacity: 0.9;
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="app-header">
+    <h1>🎓 Campus Connect — Mentorship</h1>
+    <div class="header-actions">
+        <button class="header-btn" onclick="goHome()">🏠 Home</button>
+        <button class="header-btn" onclick="logout()">🚪 Logout</button>
+        <button class="header-btn" id="themeToggle">🌙 Dark Mode</button>
+    </div>
+</header>
+
+<main class="container">
+
+    <h2 style="text-align:center;margin-top:40px;">Choose Your Role</h2>
+    <p style="text-align:center;color:var(--text-muted);">
+        Alumni guide students with careers and internships. Students connect with alumni mentors.
+    </p>
+
+    <div class="role-container">
+
+        <!-- ALUMNI -->
+        <div class="role-card">
+            <div style="font-size:40px;">🎓</div>
+            <h3>I’m an Alumni</h3>
+            <p>Help students with guidance, referrals, and real-world experience.</p>
+            <button id="alumniBtn" class="continue-btn">Continue</button>
+        </div>
+
+        <!-- STUDENT -->
+        <div class="role-card">
+            <div style="font-size:40px;">🎯</div>
+            <h3>I’m a Student</h3>
+            <p>Find alumni mentors and request guidance for your career goals.</p>
+            <button id="studentBtn" class="continue-btn">Continue</button>
+        </div>
+
+    </div>
+
+</main>
+
+<footer class="footer">
+    <p>© 2025 Campus Connect | Mentorship Program</p>
+</footer>
+
+<script>
+    document.addEventListener("DOMContentLoaded", async () => {
+
+      // ========= SESSION CHECK =========
+      const session = JSON.parse(localStorage.getItem("user"));
+      if (!session || !session.data || !session.data.id) {
+        alert("Please login first");
+        window.location.href = "login.html";
+        return;
+      }
+
+      const userId = session.data.id;
+      const API = "http://localhost:8080/api";
+
+      // ========= THEME =========
+      const toggleBtn = document.getElementById("themeToggle");
+      const isDark = localStorage.getItem("darkTheme") === "true";
+
+      if (isDark) {
+        document.body.classList.add("dark-theme");
+        toggleBtn.textContent = "☀️ Light Mode";
+      }
+
+      toggleBtn.onclick = () => {
+        document.body.classList.toggle("dark-theme");
+        localStorage.setItem(
+          "darkTheme",
+          document.body.classList.contains("dark-theme")
+        );
+        toggleBtn.textContent =
+          document.body.classList.contains("dark-theme")
+            ? "☀️ Light Mode"
+            : "🌙 Dark Mode";
+      };
+    function goHome() {
+        window.location.href = "index.html";
+    }
+
+      // ========= ALUMNI BUTTON =========
+      document.getElementById("alumniBtn").onclick = async () => {
+        try {
+          const res = await fetch(`${API}/alumni/user/${userId}`);
+
+          if (res.ok) {
+            // Alumni profile exists
+            window.location.href = "alumni-home.html"; // Redirect to alumni-home.html
+          } else {
+            // No alumni profile yet
+            window.location.href = "alumni-home.html"; // Redirect to alumni-home.html
+          }
+        } catch (e) {
+          window.location.href = "alumni-home.html"; // Redirect to alumni-home.html
+        }
+      };
+
+      // ========= STUDENT BUTTON =========
+      document.getElementById("studentBtn").onclick = () => {
+  window.location.href = "student-home.html";
+};
+
+    }); // <-- Ensure this closing brace is present
+
+    // ========= LOGOUT =========
+    function logout() {
+      localStorage.clear();
+      window.location.href = "login.html";
+    }
+    function goHome() {
+        window.location.href = "index.html";
+    }
+
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chats</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+          margin: 0;
+          font-family: 'Poppins', sans-serif;
+          background: #f0f2f5;
+        }
+
+        .header {
+          background: #075E54;
+          color: white;
+          padding: 16px;
+          font-size: 18px;
+          font-weight: 600;
+        }
+
+        .chat-list {
+          max-width: 520px;
+          margin: auto;
+          background: white;
+        }
+
+        .chat-card {
+          display: flex;
+          align-items: center;
+          padding: 14px;
+          border-bottom: 1px solid #e5e7eb;
+          cursor: pointer;
+        }
+
+        .chat-card:hover {
+          background: #f5f5f5;
+        }
+
+        .avatar {
+          width: 46px;
+          height: 46px;
+          border-radius: 50%;
+          background: #25D366;
+          color: white;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: 600;
+          margin-right: 12px;
+        }
+
+        .chat-info {
+          flex: 1;
+        }
+
+        .chat-name {
+          font-weight: 600;
+        }
+
+        .chat-preview {
+          font-size: 13px;
+          color: #6b7280;
+        }
+
+        .chat-time {
+          font-size: 12px;
+          color: #9ca3af;
+        }
+
+        .empty {
+          text-align: center;
+          padding: 60px 20px;
+          color: #6b7280;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="header">💬 Chats</div>
+
+<div id="chatContainer"></div>
+
+<script>
+    /* ================= SESSION ================= */
+    const session = JSON.parse(localStorage.getItem("user"));
+    if (!session || !session.data) {
+      alert("Please login again");
+      window.location.href = "login.html";
+    }
+
+    /* ================= SAMPLE DATA =================
+       Replace this with backend API later
+    */
+    const recentChats = [
+      // Uncomment to test empty state
+      // {}
+
+      {
+        requestId: 12,
+        name: "Steve",
+        lastMessage: "Sure, I can guide you",
+        time: "10:32 AM"
+      }
+    ];
+
+    /* ================= RENDER ================= */
+
+    const container = document.getElementById("chatContainer");
+
+    if (!recentChats.length) {
+      container.innerHTML = `
+        <div class="empty">
+          <h3>No chats yet</h3>
+          <p>You have no mentors accepted.<br>
+          Once a mentorship request is accepted, you can chat here.</p>
+        </div>
+      `;
+    } else {
+      const list = document.createElement("div");
+      list.className = "chat-list";
+
+      recentChats.forEach(chat => {
+        const card = document.createElement("div");
+        card.className = "chat-card";
+        card.onclick = () => openChat(chat.requestId);
+
+        card.innerHTML = `
+          <div class="avatar">${chat.name.charAt(0)}</div>
+          <div class="chat-info">
+            <div class="chat-name">${chat.name}</div>
+            <div class="chat-preview">${chat.lastMessage}</div>
+          </div>
+          <div class="chat-time">${chat.time}</div>
+        `;
+
+        list.appendChild(card);
+      });
+
+      container.appendChild(list);
+    }
+
+    /* ================= NAVIGATION ================= */
+
+    function openChat(requestId) {
+      localStorage.setItem("requestId", requestId);
+      window.location.href = "chat.html";
+    }
+</script>
+
+</body>
+</html>

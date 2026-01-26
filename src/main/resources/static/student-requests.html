@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Campus Connect — My Mentorship Requests</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="stylesheet" href="styles.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        .request-grid {
+          max-width: 900px;
+          margin: 40px auto;
+          display: grid;
+          gap: 20px;
+        }
+
+        .request-card {
+          background: #ffffff;
+          padding: 20px;
+          border-radius: 16px;
+          box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+        }
+
+        body.dark-theme .request-card {
+          background: #1f1f1f;
+        }
+
+        .status {
+          font-weight: 700;
+        }
+
+        .status.PENDING { color: #f59e0b; }
+        .status.ACCEPTED { color: #16a34a; }
+        .status.REJECTED { color: #dc2626; }
+
+        .chat-btn {
+          margin-top: 12px;
+          padding: 8px 14px;
+          border: none;
+          border-radius: 8px;
+          background: #2563eb;
+          color: #fff;
+          cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="app-header">
+    <h1>📄 My Mentorship Requests</h1>
+    <div class="header-actions">
+        <button class="header-btn" onclick="goHome()">🏠 Home</button>
+        <button class="header-btn" onclick="logout()">🚪 Logout</button>
+        <button class="header-btn" id="themeToggle">🌙 Dark Mode</button>
+    </div>
+</header>
+
+<main class="container">
+    <div id="requestList" class="request-grid">
+        <p>Loading requests...</p>
+    </div>
+</main>
+
+<footer class="footer">
+    <p>© 2025 Campus Connect | Student Requests</p>
+</footer>
+
+<script>
+    const API = "http://localhost:8080/api";
+
+    /* ===== SESSION CHECK ===== */
+    const session = JSON.parse(localStorage.getItem("user"));
+    if (!session || !session.data) {
+      alert("Please login first");
+      window.location.href = "login.html";
+    }
+
+    const studentEmail = session.data.email;
+
+    /* ===== THEME ===== */
+    const toggleBtn = document.getElementById("themeToggle");
+    if (localStorage.getItem("darkTheme") === "true") {
+      document.body.classList.add("dark-theme");
+    }
+    toggleBtn.onclick = () => {
+      document.body.classList.toggle("dark-theme");
+      localStorage.setItem(
+        "darkTheme",
+        document.body.classList.contains("dark-theme")
+      );
+    };
+
+    /* ===== NAV ===== */
+    function goHome() {
+      window.location.href = "student-home.html";
+    }
+
+    function logout() {
+      localStorage.clear();
+      window.location.href = "login.html";
+    }
+
+    /* ===== LOAD STUDENT REQUESTS (FIXED ENDPOINT) ===== */
+    fetch(`${API}/mentorship/student/requests?email=${encodeURIComponent(studentEmail)}`)
+      .then(res => {
+        if (!res.ok) throw new Error("Failed to load");
+        return res.json();
+      })
+      .then(data => {
+        const list = document.getElementById("requestList");
+        list.innerHTML = "";
+
+        if (!data || data.length === 0) {
+          list.innerHTML = "<p>No mentorship requests yet</p>";
+          return;
+        }
+
+        data.forEach(r => {
+          const card = document.createElement("div");
+          card.className = "request-card";
+
+          card.innerHTML = `
+            <h3>${r.alumni?.name || "Alumni Mentor"}</h3>
+            <p><b>Category:</b> ${r.category}</p>
+            <p><b>Message:</b> ${r.message}</p>
+            <p class="status ${r.status}">Status: ${r.status}</p>
+
+            ${
+              r.status === "ACCEPTED"
+                ? `<button class="chat-btn" onclick="openChat(${r.id})">💬 Open Chat</button>`
+                : ""
+            }
+          `;
+
+          list.appendChild(card);
+        });
+      })
+      .catch(err => {
+        console.error(err);
+        document.getElementById("requestList").innerHTML =
+          "<p>Error loading requests</p>";
+      });
+
+    function openChat(requestId) {
+      localStorage.setItem("requestId", requestId);
+      window.location.href = "chat.html";
+    }
+</script>
+
+</body>
+</html>

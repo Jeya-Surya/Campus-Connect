@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Campus Connect — Alumni Profile</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        .form-section {
+          max-width: 900px;
+          margin: 40px auto;
+          background: var(--card-bg, #fff);
+          border-radius: 16px;
+          box-shadow: var(--shadow-subtle, 0 8px 20px rgba(0,0,0,0.08));
+          padding: 30px;
+        }
+
+        .form-section h2 {
+          color: var(--accent-color, #007bff);
+          margin-bottom: 20px;
+          text-align: center;
+        }
+
+        .form-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+          gap: 18px;
+        }
+
+        .form-grid input {
+          padding: 10px 14px;
+          border-radius: 10px;
+          border: 1px solid #ccc;
+          font-size: 1rem;
+        }
+
+        .submit-btn {
+          margin-top: 22px;
+          width: 100%;
+          padding: 12px;
+          background: linear-gradient(90deg, var(--accent-color, #6610f2), #007bff);
+          color: #fff;
+          border: none;
+          border-radius: 12px;
+          font-weight: 600;
+          font-size: 1.05rem;
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+          transform: translateY(-3px);
+          box-shadow: 0 8px 20px rgba(0, 123, 255, 0.2);
+        }
+    </style>
+</head>
+<body>
+<header class="app-header">
+    <h1>🎓 Alumni Mentorship</h1>
+    <div class="header-actions">
+        <button id="homeBtn" class="theme-toggle">🏠 Home</button>
+        <button id="logoutBtn" class="theme-toggle">🚪 Logout</button>
+        <button id="themeToggle" class="theme-toggle">🌙 Dark Mode</button>
+    </div>
+</header>
+
+<main class="container">
+    <section class="form-section">
+        <h2>Mentorship Requests</h2>
+        <div id="mentorshipList">
+            <p>Loading requests...</p>
+        </div>
+    </section>
+    <h2>Share Your Alumni Profile</h2>
+        <form id="alumniForm" class="form-grid">
+            <input type="text" id="name" placeholder="Full Name" required />
+            <input type="text" id="dept" placeholder="Department" required />
+            <input type="number" id="gradYear" placeholder="Graduation Year" required />
+            <input type="text" id="company" placeholder="Current Company" required />
+            <input type="text" id="role" placeholder="Role / Designation" required />
+            <input type="text" id="location" placeholder="Location" required />
+            <input type="text" id="expertise" placeholder="Expertise (e.g., Java, AI, Cloud)" />
+            <input type="text" id="helpAreas" placeholder="Help Areas (Internships, Referrals, Career Advice)" required />
+            <input type="email" id="email" placeholder="Email Address" required />
+            <button class="submit-btn" type="submit">Submit Profile</button>
+        </form>
+    </section>
+</main>
+
+<footer class="footer">
+    <p>© 2025 Campus Connect | Mentorship Program</p>
+</footer>
+
+<script>
+    // Theme persistence
+    const themeBtn = document.getElementById("themeToggle");
+    const isDark = localStorage.getItem("darkTheme") === "true";
+    if (isDark) document.body.classList.add("dark-theme");
+    themeBtn.addEventListener("click", () => {
+      document.body.classList.toggle("dark-theme");
+      localStorage.setItem("darkTheme", document.body.classList.contains("dark-theme"));
+      themeBtn.textContent = document.body.classList.contains("dark-theme") ? "☀️ Light Mode" : "🌙 Dark Mode";
+    });
+
+    document.getElementById("homeBtn").onclick = () => window.location.href = "index.html";
+    document.getElementById("logoutBtn").onclick = () => window.location.href = "login.html";
+
+    // Alumni form submission
+    document.getElementById("alumniForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+  const alumni = {
+  name: document.getElementById("name").value,
+  dept: document.getElementById("dept").value,
+  gradYear: document.getElementById("gradYear").value,
+  company: document.getElementById("company").value,
+  role: document.getElementById("role").value,
+  location: document.getElementById("location").value,
+  expertise: document.getElementById("expertise").value,
+  helpAreas: document.getElementById("helpAreas").value,
+  email: document.getElementById("email").value
+};
+
+
+      const res = await fetch("http://localhost:8080/api/alumni", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(alumni)
+      });
+
+      if (res.ok) {
+        alert("✅ Profile submitted successfully!");
+        document.getElementById("alumniForm").reset();
+      } else {
+        alert("❌ Something went wrong while submitting profile.");
+      }
+    });
+
+    // ================= MENTORSHIP REQUEST HANDLING (ALUMNI) =================
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  const user = JSON.parse(localStorage.getItem("user"));
+  if (!user || user.role !== "ALUMNI") return;
+
+  const list = document.getElementById("mentorshipList");
+  if (!list) return;
+
+  loadRequests();
+
+  function loadRequests() {
+    fetch(`http://localhost:8080/api/mentorship/requests/${user.id}`)
+      .then(res => res.json())
+      .then(data => {
+        list.innerHTML = "";
+
+        if (data.length === 0) {
+          list.innerHTML = "<p>No mentorship requests</p>";
+          return;
+        }
+
+        data.forEach(req => {
+          const div = document.createElement("div");
+          div.className = "notif-item";
+
+          div.innerHTML = `
+            <p><strong>${req.studentName}</strong></p>
+            <p>${req.message}</p>
+            <p>Category: ${req.category}</p>
+            <p>Status: <b>${req.status}</b></p>
+
+            ${req.status === "PENDING" ? `
+              <button onclick="updateStatus(${req.id}, 'ACCEPTED')">Accept</button>
+              <button onclick="updateStatus(${req.id}, 'REJECTED')">Reject</button>
+            ` : ""}
+          `;
+
+          list.appendChild(div);
+        });
+      });
+  }
+
+  window.updateStatus = function (requestId, status) {
+    fetch(
+      `http://localhost:8080/api/mentorship/${requestId}/status` +
+      `?alumniUserId=${user.id}&status=${status}`,
+      { method: "PUT" }
+    ).then(() => loadRequests());
+  };
+
+});
+
+</script>
+<script src="session.js"></script>
+
+</body>
+</html>

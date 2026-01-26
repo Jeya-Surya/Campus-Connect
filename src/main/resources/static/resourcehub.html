@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Resource Hub | Campus Connect</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="app-header">
+    <h1>🎓 Campus Connect — <span id="pageTitle">Resource Hub</span></h1>
+
+    <div class="header-actions">
+        <button class="header-btn" onclick="goHome()">🏠 Home</button>
+        <button class="header-btn logout-btn" onclick="logout()">🚪 Logout</button>
+        <button class="header-btn" id="themeToggle">🌙 Dark Mode</button>
+    </div>
+</header>
+
+<main class="container">
+
+    <!-- ================= UPLOAD ================= -->
+    <section class="post-form">
+        <h3>Upload Study Resource</h3>
+
+        <form id="uploadForm">
+
+            <select id="resourceType" required>
+                <option value="">Resource Type</option>
+                <option value="NOTES">Notes</option>
+                <option value="QUESTION_PAPER">Question Paper</option>
+            </select>
+
+            <input type="text" id="subject" placeholder="Subject (e.g. Discrete Mathematics)" required />
+            <input type="number" id="semester" placeholder="Semester" required />
+            <input type="text" id="college" placeholder="College Name" required />
+
+            <!-- optional / hidden -->
+            <input type="hidden" id="course" value="N/A" />
+
+            <input type="file" id="file" accept=".pdf" required />
+
+            <button type="submit">Upload</button>
+        </form>
+
+        <p id="msg"></p>
+    </section>
+    <!-- ================= SEARCH SECTION ================= -->
+    <section class="post-form">
+        <h3>Search Resources</h3>
+
+        <form id="searchForm">
+
+            <select id="searchType">
+                <option value="">All Types</option>
+                <option value="NOTES">Notes</option>
+                <option value="QUESTION_PAPER">Question Paper</option>
+            </select>
+
+            <input type="text" id="searchSubject" placeholder="Subject" />
+            <input type="number" id="searchSemester" placeholder="Semester" />
+            <input type="text" id="searchCollege" placeholder="College Name" />
+
+            <button type="submit">🔍 Search</button>
+        </form>
+    </section>
+
+
+    <!-- ================= LIST ================= -->
+    <section class="post-form">
+        <h3>Available Resources</h3>
+        <div id="resourceList">Loading...</div>
+    </section>
+
+</main>
+
+<script>
+    const API = "http://localhost:8080/api/resources";
+
+   function renderResources(data) {
+  const list = document.getElementById("resourceList");
+  list.innerHTML = "";
+
+  // 🔐 SAFETY CHECK (VERY IMPORTANT)
+  if (!Array.isArray(data)) {
+    console.error("Backend error response:", data);
+    list.innerHTML = "<p>⚠️ Something went wrong. Please try again.</p>";
+    return;
+  }
+
+  if (data.length === 0) {
+    list.innerHTML = "<p>No resources available</p>";
+    return;
+  }
+
+  data.forEach(r => {
+    list.innerHTML += `
+      <div class="resource-card">
+        <h4>${r.subject}</h4>
+
+        <div class="resource-meta">
+          <span>🏫 ${r.college}</span>
+          <span>📘 Semester ${r.semester}</span>
+          <span>📂 ${r.resourceType}</span>
+        </div>
+
+        <button onclick="download(${r.id})">⬇ Download</button>
+      </div>
+    `;
+  });
+}
+
+
+    function loadResources() {
+      fetch(API)
+        .then(res => res.json())
+        .then(renderResources);
+    }
+
+    loadResources();
+
+    function download(id) {
+      window.open(API + "/download/" + id);
+    }
+
+    // ===== Upload =====
+    uploadForm.addEventListener("submit", e => {
+      e.preventDefault();
+
+      const fd = new FormData();
+
+      // ⭐ SUBJECT IS TITLE INTERNALLY
+      fd.append("title", subject.value);
+
+      fd.append("resourceType", resourceType.value);
+      fd.append("college", college.value);
+      fd.append("course", course.value);
+      fd.append("subject", subject.value);
+      fd.append("semester", semester.value);
+      fd.append("file", file.files[0]);
+
+      fetch(API + "/upload", {
+        method: "POST",
+        body: fd
+      })
+      .then(res => res.text())
+      .then(text => {
+        msg.textContent = text;
+        uploadForm.reset();
+        loadResources();
+      });
+    });
+</script>
+
+<script>
+    if (!localStorage.getItem("user")) {
+      window.location.href = "login.html";
+    }
+
+    function goHome() {
+      window.location.href = "index.html";
+    }
+
+    function logout() {
+      localStorage.removeItem("user");
+      window.location.href = "login.html";
+    }
+
+    const toggleBtn = document.getElementById("themeToggle");
+    const isDark = localStorage.getItem("darkTheme") === "true";
+
+    if (isDark) {
+      document.body.classList.add("dark-theme");
+      toggleBtn.textContent = "☀️ Light Mode";
+    }
+
+    toggleBtn.addEventListener("click", () => {
+      document.body.classList.toggle("dark-theme");
+      localStorage.setItem("darkTheme",
+        document.body.classList.contains("dark-theme"));
+      toggleBtn.textContent =
+        document.body.classList.contains("dark-theme")
+          ? "☀️ Light Mode"
+          : "🌙 Dark Mode";
+    });
+     document.getElementById("searchForm").addEventListener("submit", e => {
+  e.preventDefault();
+
+  const params = new URLSearchParams();
+
+  if (searchType.value) params.append("type", searchType.value);
+  if (searchSubject.value) params.append("subject", searchSubject.value);
+  if (searchCollege.value) params.append("college", searchCollege.value);
+  if (searchSemester.value) params.append("semester", searchSemester.value);
+
+  fetch(`${API}/search?` + params.toString())
+    .then(res => res.json())
+    .then(renderResources);
+});
+
+</script>
+
+</body>
+</html>

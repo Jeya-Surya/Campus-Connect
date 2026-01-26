@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Campus Connect — Events</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="stylesheet" href="styles.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        .action-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+          gap: 30px;
+          max-width: 900px;
+          margin: 60px auto;
+          animation: fadeIn 0.6s ease;
+        }
+
+        .action-card {
+          background: var(--card-bg, #fff);
+          padding: 35px;
+          border-radius: 22px;
+          text-align: center;
+          box-shadow: 0 20px 45px rgba(0,0,0,0.15);
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+
+        .action-card:hover {
+          transform: translateY(-8px) scale(1.02);
+          box-shadow: 0 30px 60px rgba(0,0,0,0.2);
+        }
+
+        .hidden { display: none; }
+
+        .filters {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 15px;
+          margin: 25px 0;
+        }
+
+        .filters input,
+        .filters select {
+          padding: 12px 14px;
+          border-radius: 12px;
+          border: 1px solid #ccc;
+          font-family: 'Poppins', sans-serif;
+        }
+
+        body.dark-theme .action-card {
+          background: #1f1f1f;
+          color: #f1f1f1;
+        }
+
+        body.dark-theme .filters input,
+        body.dark-theme .filters select {
+          background: #1f1f1f;
+          color: white;
+          border-color: #444;
+        }
+
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(15px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .event-card {
+  background: var(--card-bg, #ffffff);
+  border-radius: 20px;
+  padding: 22px;
+  box-shadow: 0 18px 40px rgba(0,0,0,0.12);
+  transition: all 0.3s ease;
+  animation: scaleFade 0.4s ease;
+}
+
+.event-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 30px 70px rgba(0,0,0,0.2);
+}
+
+.event-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.event-meta {
+  font-size: 14px;
+  opacity: 0.85;
+  margin-bottom: 6px;
+}
+
+.event-desc {
+  margin-top: 10px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.event-footer {
+  margin-top: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.event-badge {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  background: #e0f2fe;
+  color: #0369a1;
+}
+
+b.event-poster-btn {
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  background: #e0f2fe;      /* same as category */
+  color: #0369a1;
+  transition: all 0.25s ease;
+}
+
+.event-poster-btn:hover {
+  background: #bae6fd;
+  transform: translateY(-2px);
+}
+
+body.dark-theme .event-poster-btn {
+  background: #0f172a;
+  color: #38bdf8;
+}
+
+body.dark-theme .event-poster-btn:hover {
+  background: #020617;
+}
+
+}
+
+    </style>
+</head>
+
+<body>
+
+<header class="app-header">
+    <h1>📅 Campus Events</h1>
+    <div class="header-actions">
+        <button class="header-btn" onclick="goHome()">🏠 Home</button>
+        <button class="header-btn" id="themeToggle">🌙 Dark Mode</button>
+        <button class="header-btn logout-btn" onclick="logout()">🚪 Logout</button>
+    </div>
+</header>
+
+<main class="container">
+
+    <!-- ACTION CARDS -->
+    <div class="action-grid">
+        <div class="action-card" onclick="showEvents()">
+            <div style="font-size:44px;">📌</div>
+            <h3>View Events</h3>
+            <p>Discover upcoming campus events</p>
+        </div>
+
+        <div class="action-card" onclick="showAddEvent()">
+            <div style="font-size:44px;">➕</div>
+            <h3>Add Event</h3>
+            <p>Create a new campus event</p>
+        </div>
+    </div>
+
+    <!-- VIEW EVENTS -->
+    <section id="viewEventsSection" class="hidden">
+        <h2>🎉 Upcoming Events</h2>
+
+        <div class="filters">
+            <input type="text" id="searchInput" placeholder="Search by title / venue" />
+            <select id="categoryFilter">
+                <option value="">All Categories</option>
+                <option>Academic</option>
+                <option>Club</option>
+                <option>Sports</option>
+            </select>
+            <select id="dateFilter">
+                <option value="">All Dates</option>
+                <option value="today">Today</option>
+                <option value="week">This Week</option>
+                <option value="upcoming">Upcoming</option>
+            </select>
+        </div>
+
+        <div id="events-container" class="feature-grid"></div>
+    </section>
+
+    <!-- ADD EVENT -->
+    <section id="addEventSection" class="hidden">
+        <h2>➕ Add New Event</h2>
+
+        <form id="eventForm" class="post-form" enctype="multipart/form-data">
+            <input type="text" name="title" placeholder="Event Name" required />
+            <input type="text" name="organizerName" placeholder="Organizer Name" required />
+            <input type="text" name="contactInfo" placeholder="Contact Info" required />
+            <input type="text" name="venue" placeholder="Venue" required />
+            <input type="text" name="category" placeholder="Category" required />
+
+            <label>Start Date & Time(Kindly use railway time)</label>
+            <input type="datetime-local" name="eventStartDateTime" required />
+
+            <label>End Date & Time(Kindly use railway time)</label>
+            <input type="datetime-local" name="eventEndDateTime" required />
+
+            <textarea name="description" placeholder="Event Description" required></textarea>
+
+            <input type="file" name="poster" accept="image/*" />
+            <button type="submit">Add Event</button>
+        </form>
+    </section>
+
+</main>
+
+<script src="events.js"></script>
+<script>
+    function goHome() { window.location.href = "index.html"; }
+    function logout() { localStorage.clear(); window.location.href = "login.html"; }
+
+    const toggleBtn = document.getElementById("themeToggle");
+    if (localStorage.getItem("darkTheme") === "true") {
+      document.body.classList.add("dark-theme");
+      toggleBtn.textContent = "☀️ Light Mode";
+    }
+
+    toggleBtn.onclick = () => {
+      document.body.classList.toggle("dark-theme");
+      localStorage.setItem("darkTheme",
+        document.body.classList.contains("dark-theme"));
+      toggleBtn.textContent =
+        document.body.classList.contains("dark-theme")
+          ? "☀️ Light Mode"
+          : "🌙 Dark Mode";
+    };
+</script>
+
+</body>
+</html>

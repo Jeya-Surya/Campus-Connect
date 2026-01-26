@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Campus Connect — Home</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<header class="app-header">
+    <h1>🎓 Campus Connect — Home</h1>
+
+    <!-- RIGHT SIDE ACTIONS -->
+    <div class="header-right">
+        <button class="header-btn logout-btn" onclick="logout()">🚪 Logout</button>
+        <button class="header-btn" id="themeToggle">🌙 Light Mode</button>
+    </div>
+</header>
+
+<main class="container">
+    <section class="post-form">
+        <h2>Welcome to Campus Connect</h2>
+        <p style="margin-bottom:20px;">
+            Your one-stop student collaboration platform.
+            Explore features that help you connect, learn, and grow!
+        </p>
+
+        <div class="feature-grid">
+            <div class="feature-card" onclick="navigate('doubtdesk.html')">
+                <h3>💬 Doubt Desk</h3>
+                <p>Ask questions and get help from your peers.</p>
+            </div>
+
+            <div class="feature-card" onclick="navigate('projectcompass.html')">
+                <h3>🧭 Project Compass</h3>
+                <p>Find teammates and collaborate on academic projects.</p>
+            </div>
+
+            <div class="feature-card" onclick="navigate('resourcehub.html')">
+                <h3>📚 Resource Hub</h3>
+                <p>Share and access study materials and resources.</p>
+            </div>
+
+            <div class="feature-card" onclick="navigate('studygroups.html')">
+                <h3>👥 Study Groups</h3>
+                <p>Create or join groups for collective learning.</p>
+            </div>
+
+            <div class="feature-card" onclick="navigate('mentorship.html')">
+                <h3>🎓 Mentorship</h3>
+                <p>Connect with mentors and alumni for career guidance.</p>
+            </div>
+
+            <div class="feature-card" onclick="navigate('events.html')">
+                <h3>📅 Campus Events</h3>
+                <p>Stay updated with university events and workshops.</p>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer class="footer">
+    <p>© 2025 Campus Connect | Made with ❤️ for learners</p>
+</footer>
+
+<script>
+    // ✅ Always require login — runs when the page loads
+    window.addEventListener("DOMContentLoaded", () => {
+      const sessionData = localStorage.getItem("user");
+
+      // If user not logged in → redirect to login
+      if (!sessionData) {
+        window.location.href = "login.html";
+      }
+      try {
+      const session = JSON.parse(sessionData);
+      if (new Date().getTime() > session.expiry) {
+        localStorage.removeItem("user");
+        window.location.href = "login.html";
+        return;
+      }
+    } catch (e) {
+      localStorage.removeItem("user");
+      window.location.href = "login.html";
+      return;
+    }
+    });
+
+    // 🌙 Dark Mode Toggle (consistent across pages)
+    const toggleBtn = document.getElementById("themeToggle");
+    const isDark = localStorage.getItem("darkTheme") === "true";
+
+    if (isDark) {
+      document.body.classList.add("dark-theme");
+      toggleBtn.textContent = "☀️ Light Mode";
+    }
+
+    toggleBtn.addEventListener("click", () => {
+      document.body.classList.toggle("dark-theme");
+      const darkEnabled = document.body.classList.contains("dark-theme");
+      localStorage.setItem("darkTheme", darkEnabled);
+      toggleBtn.textContent = darkEnabled ? "☀️ Light Mode" : "🌙 Dark Mode";
+    });
+
+    // 🚀 Navigation function for feature cards
+    function navigate(page) {
+      window.location.href = page;
+    }
+
+    // 🚪 Logout Function
+    document.addEventListener("DOMContentLoaded", () => {
+      const logoutBtn = document.getElementById("logoutBtn");
+      if (logoutBtn) {
+        logoutBtn.addEventListener("click", () => {
+          localStorage.removeItem("user");
+          window.location.href = "login.html";
+        });
+      }
+    });
+  // 🚪 Logout function (GLOBAL – required for onclick)
+  function logout() {
+    localStorage.removeItem("user");
+    window.location.href = "login.html";
+  }
+
+  // 🏠 Home (optional safeguard)
+  function goHome() {
+    window.location.href = "index.html";
+  }
+
+</script>
+
+
+
+<style>
+    /* Feature Grid Styles (uses your existing theme variables) */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .feature-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-subtle);
+      border: 1px solid var(--border-light);
+      padding: 20px;
+      text-align: center;
+      transition: transform 0.25s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.15);
+    }
+
+    .feature-card h3 {
+      color: var(--primary-color);
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+
+    .feature-card p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+    /* 🔹 Header alignment and styling */
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 25px;
+  background: var(--card-bg);
+  box-shadow: var(--shadow-subtle);
+  border-bottom: 1px solid var(--border-light);
+}
+
+/* Group the buttons together */
+.header-actions {
+  display: flex;
+  gap: 12px;
+}
+
+/* Logout button style (same theme as dark mode) */
+.logout-btn {
+  background-color: var(--accent-color);
+  color: white;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  padding: 8px 14px;
+  border-radius: var(--radius);
+  transition: background 0.3s ease;
+}
+
+.logout-btn:hover {
+  background-color: #e5533d; /* slightly darker red tone */
+}
+/* 🔔 Notification Styles */
+.notification-wrapper {
+  position: relative;
+}
+
+.notif-btn {
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.notif-dropdown {
+  position: absolute;
+  top: 45px;
+  right: 0;
+  width: 300px;
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  z-index: 1000;
+  display: none;
+}
+
+.notif-dropdown.visible {
+  display: block;
+}
+
+.notif-dropdown h4 {
+  margin-bottom: 8px;
+  font-size: 1rem;
+  color: var(--primary-color);
+  text-align: center;
+}
+
+.notif-item {
+  border-bottom: 1px solid var(--border-light);
+  padding: 8px 0;
+}
+
+.notif-item p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.notif-item button {
+  background: var(--primary-color);
+  border: none;
+  color: white;
+  padding: 5px 8px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 6px;
+  font-size: 0.8rem;
+}
+
+.notif-item button:hover {
+  background: var(--accent-color);
+}
+
+</style>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+
+      const bell = document.getElementById("notifBell");
+      const dropdown = document.getElementById("notifDropdown");
+      const list = document.getElementById("notificationList");
+
+      if (!bell) return;
+
+      bell.addEventListener("click", () => {
+        dropdown.classList.toggle("visible");
+        loadMentorshipRequests();
+      });
+
+      function loadMentorshipRequests() {
+        list.innerHTML = "<p>Loading...</p>";
+
+        const alumniId = localStorage.getItem("alumniId");
+
+        // If logged-in user is NOT alumni
+        if (!alumniId) {
+          list.innerHTML = "<p>No mentorship requests</p>";
+          return;
+        }
+
+        fetch(`http://localhost:8080/api/mentorship/requests/${alumniId}`)
+          .then(res => res.json())
+          .then(data => {
+
+            list.innerHTML = "";
+
+            if (!Array.isArray(data) || data.length === 0) {
+              list.innerHTML = "<p>No mentorship requests</p>";
+              return;
+            }
+
+            data.forEach(req => {
+              const div = document.createElement("div");
+              div.className = "notif-item";
+
+              div.innerHTML = `
+                <p><b>${req.studentName}</b></p>
+                <p>${req.message}</p>
+                <p>Status: <b>${req.status}</b></p>
+
+                ${req.status === "PENDING" ? `
+                  <button onclick="updateStatus(${req.id}, 'ACCEPTED')">Accept</button>
+                  <button onclick="updateStatus(${req.id}, 'REJECTED')">Reject</button>
+                ` : ""}
+              `;
+
+              list.appendChild(div);
+            });
+          })
+          .catch(err => {
+            console.error(err);
+            list.innerHTML = "<p>Error loading mentorship requests</p>";
+          });
+      }
+
+      // 🔁 REQUIRED FUNCTION (WAS MISSING)
+      window.updateStatus = function (requestId, status) {
+        fetch(
+          `http://localhost:8080/api/mentorship/${requestId}/status?status=${status}`,
+          { method: "PUT" }
+        ).then(() => loadMentorshipRequests());
+      };
+
+    });
+</script>
+
+
+
+
+</body>
+</html>
+
+
