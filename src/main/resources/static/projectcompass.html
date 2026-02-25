@@ -9,99 +9,81 @@
     <style>
         /* --- MODERN UI STYLES (High Contrast) --- */
 
-        /* General Card Text - Darker for readability */
-        .feature-card p {
-            color: #333; /* Was #555, now darker */
+        /* --- CODÉDEX STYLE PROJECT CARDS (NEW) --- */
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .project-card {
+            background: var(--card-bg, #ffffff);
+            border-radius: 20px;
+            padding: 25px;
+            text-align: left;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        .project-card:hover {
+            transform: translateY(-8px);
+            border-color: #6c63ff;
+            box-shadow: 0 15px 40px rgba(108, 99, 255, 0.15);
+        }
+
+        .project-card h3 { font-size: 1.3rem; font-weight: 700; margin-bottom: 8px; color: #333; }
+        .project-card p.desc { font-size: 0.95rem; color: #555; margin-bottom: 15px; line-height: 1.6; flex-grow: 1; }
+
+        /* --- ROLES SECTION (NEW) --- */
+        .roles-section {
+            background: rgba(108, 99, 255, 0.08);
+            padding: 12px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            border-left: 4px solid #6c63ff;
+            color: #444;
             font-weight: 500;
         }
 
         /* 1. Skill Pills */
         .skill-tag {
-            display: inline-block;
-            padding: 6px 14px;
-            margin: 0 6px 6px 0;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600; /* Thicker font */
-            background: #e0e7ff;
-            color: #3730a3;      /* Darker purple/blue text */
-            border: 1px solid transparent;
-            transition: all 0.2s ease;
+            display: inline-block; padding: 6px 14px; margin: 0 6px 6px 0; border-radius: 20px;
+            font-size: 0.85rem; font-weight: 600; background: #e0e7ff; color: #3730a3; transition: all 0.2s ease;
         }
 
         /* 2. Action Buttons Container */
-        .card-actions {
-            margin-top: 20px;
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            gap: 12px;
-        }
+        .card-actions { display: flex; justify-content: flex-end; align-items: center; gap: 12px; width: 100%; }
 
-        /* Base Button Style */
         .action-btn {
-            padding: 10px 18px;
-            border-radius: 10px;
-            font-size: 0.9rem;
-            font-weight: 700; /* Bold text on buttons */
-            border: none;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            padding: 10px 18px; border-radius: 10px; font-size: 0.9rem; font-weight: 700; border: none;
+            cursor: pointer; transition: all 0.2s ease; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
         .action-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
 
-        /* -- Delete Button (Soft Red) -- */
-        .btn-delete { background: #fee2e2; color: #b91c1c; } /* Darker red text */
+        .btn-delete { background: #fee2e2; color: #b91c1c; }
         .btn-delete:hover { background: #fecaca; }
-
-        /* -- Team Button (Soft Blue) -- */
-        .btn-members { background: #e0f2fe; color: #0369a1; } /* Darker blue text */
+        .btn-members { background: #e0f2fe; color: #0369a1; }
         .btn-members:hover { background: #bae6fd; }
-
-        /* -- Join Button (Primary Gradient) -- */
-        .btn-join {
-            background: linear-gradient(135deg, #6c63ff 0%, #5a52e0 100%);
-            color: white; font-weight: 700;
-            box-shadow: 0 4px 12px rgba(108, 99, 255, 0.25);
-        }
+        .btn-join { background: linear-gradient(135deg, #6c63ff 0%, #5a52e0 100%); color: white; box-shadow: 0 4px 12px rgba(108, 99, 255, 0.25); }
         .btn-join:hover { box-shadow: 0 6px 15px rgba(108, 99, 255, 0.4); }
 
-        /* -- Owner Badge (Static) -- */
-        .owner-badge {
-            font-size: 0.85rem;
-            color: #495057; /* Darker gray */
-            font-weight: 700;
-            background: #f8f9fa;
-            border: 1px solid #dde2e6;
-            padding: 8px 16px;
-            border-radius: 10px;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
+        .owner-badge { font-size: 0.85rem; color: #495057; font-weight: 700; background: #f8f9fa; border: 1px solid #dde2e6; padding: 8px 16px; border-radius: 10px; display: inline-flex; align-items: center; gap: 6px; }
 
-        /* --- DARK MODE ADJUSTMENTS (High Contrast) --- */
-        .dark-theme .feature-card h3 { color: #fff; }
-        .dark-theme .feature-card p { color: #eee; } /* Brighter white text */
+        /* --- DARK MODE ADJUSTMENTS --- */
+        .dark-theme .project-card { background: #1e1e1e; border-color: #333; }
+        .dark-theme .project-card:hover { border-color: #8c85ff; }
+        .dark-theme .project-card h3 { color: #fff; }
+        .dark-theme .project-card p.desc { color: #aaa; }
+        .dark-theme .roles-section { background: rgba(108, 99, 255, 0.15); color: #ddd; }
 
-        .dark-theme .skill-tag {
-            background: rgba(99, 102, 241, 0.2);
-            color: #c7d2fe; /* brighter purple */
-            border: 1px solid rgba(99, 102, 241, 0.3);
-        }
-
+        .dark-theme .skill-tag { background: rgba(99, 102, 241, 0.2); color: #c7d2fe; border: 1px solid rgba(99, 102, 241, 0.3); }
         .dark-theme .btn-delete { background: rgba(239, 68, 68, 0.2); color: #fca5a5; }
         .dark-theme .btn-members { background: rgba(14, 165, 233, 0.2); color: #7dd3fc; }
-
-        .dark-theme .owner-badge {
-            background: rgba(255, 255, 255, 0.05);
-            color: #d1d5db; /* Lighter gray for dark mode */
-            border-color: rgba(255, 255, 255, 0.1);
-        }
+        .dark-theme .owner-badge { background: rgba(255, 255, 255, 0.05); color: #d1d5db; border-color: rgba(255, 255, 255, 0.1); }
 
         /* --- STANDARD MODAL STYLES --- */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(5px); z-index: 9998; justify-content: center; align-items: center; }
@@ -145,7 +127,7 @@
 <main class="container">
     <section class="post-form" style="text-align: center; padding: 60px 20px; background: linear-gradient(135deg, rgba(108,99,255,0.1) 0%, rgba(255,255,255,0) 100%); border-radius: 20px; margin-bottom: 40px;">
         <h2 style="font-size: 2.5rem; margin-bottom: 15px;">Collaborate & Build</h2>
-        <p style="color: #555; font-size: 1.1rem; margin-bottom: 30px; font-weight: 500;">Find teammates and build your portfolio.</p>
+        <p style="color: #555; font-size: 1.1rem; margin-bottom: 30px; font-weight: 500;">Find teammates, assign roles, and build your portfolio.</p>
         <button class="header-btn" onclick="openModal()" style="font-size: 1.1rem; padding: 12px 30px; border-radius: 50px; cursor: pointer; z-index: 10; font-weight: 700;">➕ Start New Project</button>
     </section>
 
@@ -153,7 +135,7 @@
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
             <h3>Latest Opportunities</h3>
         </div>
-        <div id="projectList" class="feature-grid"></div>
+        <div id="projectList" class="project-grid"></div>
     </section>
 </main>
 
@@ -163,6 +145,9 @@
         <h2>🚀 Create Project</h2>
         <div class="form-group"><label class="form-label">Project Title</label><input id="modal-title" class="modern-input" placeholder="Type title..."/></div>
         <div class="form-group"><label class="form-label">Description</label><textarea id="modal-desc" class="modern-input" rows="4" placeholder="Type description..."></textarea></div>
+
+        <div class="form-group"><label class="form-label">Open Roles / Positions</label><input id="modal-roles" class="modern-input" placeholder="e.g., UI/UX Designer, React Developer..."/></div>
+
         <div class="form-group"><label class="form-label">Required Skills</label><input id="modal-skills" class="modern-input" placeholder="Type skills (comma separated)..."/></div>
         <div class="modal-actions">
             <button class="btn-cancel" onclick="closeModal()">Cancel</button>

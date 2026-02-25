@@ -1,5 +1,5 @@
 /* ===============================
-   Project Compass - Final High Contrast UI
+   Project Compass - High Contrast UI (With Roles & Cards)
    =============================== */
 
 const API_BASE = "http://localhost:8080/api/project-compass";
@@ -41,23 +41,26 @@ function closeMembersModal() { document.getElementById("membersModal").style.dis
 function createProject() {
     const titleEl = document.getElementById("modal-title");
     const descEl = document.getElementById("modal-desc");
+    const rolesEl = document.getElementById("modal-roles"); // NEW
     const skillsEl = document.getElementById("modal-skills");
 
     if (!titleEl) { alert("Please refresh (Ctrl+F5)."); return; }
 
     const title = titleEl.value.trim();
     const desc = descEl.value.trim();
+    const roles = rolesEl ? rolesEl.value.trim() : "";
     const skills = skillsEl.value.trim();
     const email = getMyEmail();
     const name = getMyName();
 
-    if (!title || !desc || !skills) { alert("⚠️ Please fill all fields."); return; }
+    if (!title || !desc || !skills || !roles) { alert("⚠️ Please fill all fields, including Open Roles."); return; }
     if (!email) { alert("❌ Session Error: Please re-login."); return; }
 
     const payload = {
         projectTitle: title,
         projectDescription: desc,
         requiredSkills: skills,
+        projectRoles: roles, // NEW
         createdBy: email,
         ownerName: name
     };
@@ -77,7 +80,7 @@ function createProject() {
     .then(() => {
         alert("✅ Project Created!");
         closeModal();
-        titleEl.value = ""; descEl.value = ""; skillsEl.value = "";
+        titleEl.value = ""; descEl.value = ""; rolesEl.value = ""; skillsEl.value = "";
         loadProjects();
     })
     .catch(err => alert("❌ Failed: " + err.message));
@@ -118,14 +121,24 @@ function loadProjects() {
                     `<span class="skill-tag">${s.trim()}</span>`
                 ).join('') : "";
 
+                // --- ROLES HTML (NEW) ---
+                let rolesHtml = p.projectRoles ? `
+                    <div class="roles-section">
+                        <strong style="color: #6c63ff;">🎯 Looking For:</strong> ${p.projectRoles}
+                    </div>
+                ` : "";
+
+                // --- CARD GENERATION ---
                 list.innerHTML += `
-                  <div class="feature-card">
+                  <div class="project-card">
                       <h3>${p.projectTitle}</h3>
-                      <p style="margin: 10px 0; line-height:1.6; font-size:0.95rem;">${p.projectDescription}</p>
+                      <p class="desc">${p.projectDescription}</p>
 
-                      <div style="margin: 15px 0;">${skillsHtml}</div>
+                      ${rolesHtml}
 
-                      <hr style="border:0; border-top:1px solid rgba(0,0,0,0.1); margin: 15px 0;">
+                      <div style="margin: 10px 0;">${skillsHtml}</div>
+
+                      <hr style="border:0; border-top:1px solid rgba(0,0,0,0.1); margin: 15px 0; width: 100%;">
 
                       <div class="card-actions">
                           ${deleteBtn}
@@ -147,7 +160,7 @@ function deleteProject(id) {
     });
 }
 
-// 7. View Members (HIGH CONTRAST UPDATE)
+// 7. View Members
 function viewMembers(id, ownerName) {
     const modal = document.getElementById("membersModal");
     if(modal) modal.style.display = "flex";
@@ -221,7 +234,7 @@ function checkRequestCount() {
 
 function goToJoin(id) { window.location.href = `join-project.html?projectId=${id}`; }
 
-// --- THEME TOGGLE LOGIC (FIXED: Changes Text) ---
+// --- THEME TOGGLE LOGIC ---
 function updateThemeButton(isDark) {
     const btn = document.getElementById("themeToggle");
     if(btn) btn.textContent = isDark ? "☀️ Light Mode" : "🌙 Dark Mode";
@@ -234,7 +247,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const isDark = localStorage.getItem("darkTheme") === "true";
     if (isDark) document.body.classList.add("dark-theme");
-    updateThemeButton(isDark); // Set text on load
+    updateThemeButton(isDark);
 
     const toggle = document.getElementById("themeToggle");
     if(toggle) {
@@ -242,7 +255,7 @@ document.addEventListener("DOMContentLoaded", () => {
             document.body.classList.toggle("dark-theme");
             const isDarkNow = document.body.classList.contains("dark-theme");
             localStorage.setItem("darkTheme", isDarkNow);
-            updateThemeButton(isDarkNow); // Change text on click
+            updateThemeButton(isDarkNow);
         });
     }
 });

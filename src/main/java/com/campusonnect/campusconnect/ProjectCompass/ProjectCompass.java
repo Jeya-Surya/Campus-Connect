@@ -23,6 +23,9 @@ public class ProjectCompass {
     // NEW FIELD: Store the owner's actual name
     private String ownerName;
 
+    @Column(length = 1000)
+    private String projectRoles;
+
     private String status; // OPEN, IN_PROGRESS, CLOSED
 
     private LocalDateTime createdAt = LocalDateTime.now();
@@ -52,4 +55,7 @@ public class ProjectCompass {
 
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+
+    public String getProjectRoles() { return projectRoles; }
+    public void setProjectRoles(String projectRoles) { this.projectRoles = projectRoles; }
 }
