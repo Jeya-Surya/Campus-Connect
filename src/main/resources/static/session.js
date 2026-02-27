@@ -11,6 +11,17 @@ function getCurrentUser() {
   return session.data; // {id, email, role}
 }
 
+// Async server-backed check
+async function fetchCurrentUser() {
+  try {
+    const r = await fetch('/api/auth/me', { credentials: 'include' });
+    if (r.ok) return await r.json();
+    return null;
+  } catch (e) {
+    return getCurrentUser();
+  }
+}
+
 function setMentorshipRole(role) {
   localStorage.setItem("mentorshipRole", role); // STUDENT | ALUMNI
 }
