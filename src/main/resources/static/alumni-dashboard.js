@@ -10,6 +10,10 @@ if (!session || !session.data) {
 
 const userId = session.data.id;
 
+// Clear request notifications when alumni opens request dashboard
+fetch(`${API}/notifications/${userId}/seen-by-type?type=REQUEST`, { method: "PUT" })
+  .catch(() => { });
+
 /* ================= LOAD ALUMNI PROFILE ================= */
 async function loadAlumniProfile() {
   try {

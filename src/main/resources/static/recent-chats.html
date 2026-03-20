@@ -4,123 +4,174 @@
     <meta charset="UTF-8">
     <title>Chats</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-
     <style>
         body {
           margin: 0;
           font-family: 'Poppins', sans-serif;
-          background: #f0f2f5;
+          background: linear-gradient(135deg, #e3f2fd, #f5f8ff);
+          min-height: 100vh;
         }
+        body.dark-theme { background: linear-gradient(135deg, #0d0d0d, #1a1a1a); }
 
         .header {
-          background: #075E54;
+          background: linear-gradient(135deg, #6c63ff 0%, #5a52e0 100%);
           color: white;
-          padding: 16px;
-          font-size: 18px;
+          padding: 14px 16px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 10px;
+        }
+        .header-title { font-size: 18px; font-weight: 600; }
+        .header-actions { display: flex; gap: 8px; }
+        .header-btn {
+          border: none;
+          border-radius: 999px;
+          padding: 7px 12px;
+          cursor: pointer;
           font-weight: 600;
+          background: rgba(255,255,255,0.2);
+          color: #fff;
         }
 
         .chat-list {
-          max-width: 520px;
-          margin: auto;
-          background: white;
+          max-width: 680px;
+          margin: 18px auto;
+          background: rgba(255,255,255,0.86);
+          backdrop-filter: blur(8px);
+          border-radius: 14px;
+          border: 1px solid rgba(0,0,0,0.06);
+          overflow: hidden;
         }
-
         .chat-card {
           display: flex;
           align-items: center;
           padding: 14px;
-          border-bottom: 1px solid #e5e7eb;
+          border-bottom: 1px solid #eceff4;
           cursor: pointer;
         }
-
-        .chat-card:hover {
-          background: #f5f5f5;
-        }
+        .chat-card:last-child { border-bottom: none; }
+        .chat-card:hover { background: rgba(108,99,255,0.06); }
 
         .avatar {
           width: 46px;
           height: 46px;
           border-radius: 50%;
-          background: #25D366;
-          color: white;
+          background: linear-gradient(135deg, #8b85ff, #6c63ff);
+          color: #fff;
           display: flex;
           align-items: center;
           justify-content: center;
           font-weight: 600;
           margin-right: 12px;
+          text-transform: uppercase;
         }
-
-        .chat-info {
-          flex: 1;
-        }
-
-        .chat-name {
-          font-weight: 600;
-        }
-
+        .chat-info { flex: 1; min-width: 0; }
+        .chat-name { font-weight: 600; color: #1f2937; }
         .chat-preview {
           font-size: 13px;
           color: #6b7280;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          margin-top: 2px;
         }
-
         .chat-time {
           font-size: 12px;
           color: #9ca3af;
+          margin-left: 8px;
+          white-space: nowrap;
         }
 
         .empty {
+          max-width: 680px;
+          margin: 20px auto;
           text-align: center;
           padding: 60px 20px;
           color: #6b7280;
+          background: rgba(255,255,255,0.86);
+          border-radius: 14px;
+          border: 1px solid rgba(0,0,0,0.06);
         }
+
+        body.dark-theme .chat-list,
+        body.dark-theme .empty {
+          background: rgba(30,30,40,0.9);
+          border-color: #2c2c2c;
+        }
+        body.dark-theme .chat-card { border-color: #2c2c2c; }
+        body.dark-theme .chat-card:hover { background: rgba(108,99,255,0.16); }
+        body.dark-theme .chat-name { color: #f3f4f6; }
+        body.dark-theme .chat-preview,
+        body.dark-theme .empty,
+        body.dark-theme .chat-time { color: #c2c5cc; }
     </style>
 </head>
-
 <body>
-
-<div class="header">💬 Chats</div>
+<div class="header">
+    <div class="header-title">💬 Chats</div>
+    <div class="header-actions">
+        <button class="header-btn" onclick="goRoleHome()">Home</button>
+        <button class="header-btn" id="themeToggle">Theme</button>
+    </div>
+</div>
 
 <div id="chatContainer"></div>
 
 <script>
-    /* ================= SESSION ================= */
-    const session = JSON.parse(localStorage.getItem("user"));
-    if (!session || !session.data) {
+    const sessionWrapper = JSON.parse(localStorage.getItem("user") || "null");
+    if (!sessionWrapper || !sessionWrapper.data) {
       alert("Please login again");
       window.location.href = "login.html";
     }
 
-    /* ================= SAMPLE DATA =================
-       Replace this with backend API later
-    */
-    const recentChats = [
-      // Uncomment to test empty state
-      // {}
+    const session = sessionWrapper.data;
+    const API = "http://localhost:8080/api";
 
-      {
-        requestId: 12,
-        name: "Steve",
-        lastMessage: "Sure, I can guide you",
-        time: "10:32 AM"
+    const themeToggle = document.getElementById("themeToggle");
+    if (localStorage.getItem("darkTheme") === "true") {
+      document.body.classList.add("dark-theme");
+    }
+    themeToggle.textContent = document.body.classList.contains("dark-theme") ? "Light" : "Dark";
+    themeToggle.onclick = () => {
+      document.body.classList.toggle("dark-theme");
+      localStorage.setItem("darkTheme", document.body.classList.contains("dark-theme"));
+      themeToggle.textContent = document.body.classList.contains("dark-theme") ? "Light" : "Dark";
+    };
+
+    function formatChatTime(dateStr) {
+      if (!dateStr) return "";
+      const d = new Date(dateStr);
+      if (isNaN(d.getTime())) return "";
+      return d.toLocaleString([], {
+        month: "short",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit"
+      });
+    }
+
+    function sanitize(text) {
+      const div = document.createElement("div");
+      div.textContent = text || "";
+      return div.innerHTML;
+    }
+
+    function renderChats(recentChats) {
+      const container = document.getElementById("chatContainer");
+      container.innerHTML = "";
+
+      if (!recentChats || recentChats.length === 0) {
+        container.innerHTML = `
+          <div class="empty">
+            <h3>No chats yet</h3>
+            <p>You can start chatting after a mentorship request is accepted.</p>
+          </div>
+        `;
+        return;
       }
-    ];
 
-    /* ================= RENDER ================= */
-
-    const container = document.getElementById("chatContainer");
-
-    if (!recentChats.length) {
-      container.innerHTML = `
-        <div class="empty">
-          <h3>No chats yet</h3>
-          <p>You have no mentors accepted.<br>
-          Once a mentorship request is accepted, you can chat here.</p>
-        </div>
-      `;
-    } else {
       const list = document.createElement("div");
       list.className = "chat-list";
 
@@ -129,13 +180,17 @@
         card.className = "chat-card";
         card.onclick = () => openChat(chat.requestId);
 
+        const peer = chat.peerName || "Mentorship";
+        const preview = chat.lastMessage || "Start your mentorship chat";
+        const time = formatChatTime(chat.lastMessageAt);
+
         card.innerHTML = `
-          <div class="avatar">${chat.name.charAt(0)}</div>
+          <div class="avatar">${sanitize(peer.charAt(0) || "M")}</div>
           <div class="chat-info">
-            <div class="chat-name">${chat.name}</div>
-            <div class="chat-preview">${chat.lastMessage}</div>
+            <div class="chat-name">${sanitize(peer)}</div>
+            <div class="chat-preview">${sanitize(preview)}</div>
           </div>
-          <div class="chat-time">${chat.time}</div>
+          <div class="chat-time">${sanitize(time)}</div>
         `;
 
         list.appendChild(card);
@@ -144,13 +199,53 @@
       container.appendChild(list);
     }
 
-    /* ================= NAVIGATION ================= */
+    function resolveRole() {
+      const role = (session.role || "").toUpperCase();
+      if (role === "ALUMNI" || role === "STUDENT") return Promise.resolve(role);
+
+      return fetch(`${API}/alumni/user/${encodeURIComponent(session.id)}`)
+        .then(res => res.ok ? "ALUMNI" : "STUDENT")
+        .catch(() => "STUDENT");
+    }
+
+    function markChatNotificationsAsRead() {
+      fetch(`${API}/notifications/${session.id}/seen-by-type?type=CHAT`, { method: "PUT" })
+        .catch(() => {});
+    }
+
+    function loadRecentChats() {
+      resolveRole().then(role => {
+        return fetch(`${API}/chat/recent?userId=${encodeURIComponent(session.id)}&role=${encodeURIComponent(role)}`);
+      })
+      .then(res => {
+        if (!res.ok) throw new Error("Failed to load chats");
+        return res.json();
+      })
+      .then(renderChats)
+      .catch(err => {
+        console.error(err);
+        document.getElementById("chatContainer").innerHTML = `
+          <div class="empty">
+            <h3>Unable to load chats</h3>
+            <p>Please try again in a moment.</p>
+          </div>
+        `;
+      });
+    }
+
+    function goRoleHome() {
+      resolveRole().then(role => {
+        window.location.href = role === "ALUMNI" ? "alumni-home.html" : "student-home.html";
+      });
+    }
 
     function openChat(requestId) {
       localStorage.setItem("requestId", requestId);
       window.location.href = "chat.html";
     }
-</script>
 
+    markChatNotificationsAsRead();
+    loadRecentChats();
+</script>
 </body>
 </html>

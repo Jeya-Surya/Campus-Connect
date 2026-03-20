@@ -80,6 +80,10 @@
 
     const studentEmail = session.data.email;
 
+    // Mark request notifications as read on view open
+    fetch(`${API}/notifications/${session.data.id}/seen-by-type?type=REQUEST`, { method: "PUT" })
+      .catch(() => {});
+
     /* ===== THEME ===== */
     const toggleBtn = document.getElementById("themeToggle");
     if (localStorage.getItem("darkTheme") === "true") {
