@@ -10,21 +10,26 @@
 
     <style>
         .alumni-home {
-          display: flex;
-          justify-content: center;
-          gap: 40px;
-          margin-top: 60px;
-          flex-wrap: wrap;
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+          gap: 30px;
+          max-width: 980px;
+          margin: 60px auto;
         }
 
         .home-card {
-          width: 320px;
+          position: relative;
           background: #fff;
           padding: 30px;
           border-radius: 18px;
           text-align: center;
           box-shadow: 0 15px 40px rgba(0,0,0,0.12);
           cursor: pointer;
+          transition: transform 0.2s;
+        }
+
+        .home-card:hover {
+          transform: translateY(-5px);
         }
 
         body.dark-theme .home-card {
@@ -54,6 +59,24 @@
           background: linear-gradient(90deg,#6a5cff,#3b82f6);
           color: #fff;
         }
+
+        .badge {
+          position: absolute;
+          top: 12px;
+          right: 12px;
+          min-width: 22px;
+          height: 22px;
+          border-radius: 999px;
+          background: #ef4444;
+          color: #fff;
+          font-size: 12px;
+          font-weight: 700;
+          display: none;
+          align-items: center;
+          justify-content: center;
+          padding: 0 6px;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
     </style>
 </head>
 
@@ -62,6 +85,7 @@
 <header class="app-header">
     <h1>🎓 Alumni Home</h1>
     <div class="header-actions">
+        <button class="header-btn" onclick="goMentorshipHome()">🏠 Mentorship</button>
         <button class="header-btn" onclick="logout()">🚪 Logout</button>
         <button class="header-btn" id="themeToggle">🌙 Light Mode</button>
     </div>
@@ -72,7 +96,6 @@
 
     <div class="alumni-home">
 
-        <!-- CREATE PROFILE -->
         <div class="home-card" onclick="goCreate()">
             <div style="font-size:42px;">📝</div>
             <h3>Create Alumni Profile</h3>
@@ -80,8 +103,16 @@
             <button class="home-btn">Create Profile</button>
         </div>
 
-        <!-- ✅ CHATS (WHATSAPP STYLE) -->
+        <div class="home-card" onclick="goRequests()">
+            <span class="badge" id="requestBadge">0</span>
+            <div style="font-size:42px;">📥</div>
+            <h3>Alumni Requests</h3>
+            <p>Review student mentorship requests.</p>
+            <button class="home-btn">Open Requests</button>
+        </div>
+
         <div class="home-card" onclick="goChats()">
+            <span class="badge" id="chatBadge">0</span>
             <div style="font-size:42px;">💬</div>
             <h3>Chats</h3>
             <p>Chat with accepted students</p>
@@ -102,11 +133,20 @@
       window.location.href = "login.html";
     }
 
+    const API = "http://localhost:8080/api";
+
+    function goMentorshipHome() {
+      window.location.href = "mentorship.html";
+    }
+
     function goCreate() {
       window.location.href = "alumni-onboarding.html";
     }
 
-    // ✅ SAME FLOW AS STUDENT
+    function goRequests() {
+      window.location.href = "alumni-dashboard.html";
+    }
+
     function goChats() {
       window.location.href = "recent-chats.html";
     }
@@ -116,17 +156,46 @@
       window.location.href = "login.html";
     }
 
-    // theme
     const toggleBtn = document.getElementById("themeToggle");
     if (localStorage.getItem("darkTheme") === "true") {
       document.body.classList.add("dark-theme");
+      toggleBtn.textContent = "☀️ Light Mode";
     }
 
     toggleBtn.onclick = () => {
       document.body.classList.toggle("dark-theme");
-      localStorage.setItem("darkTheme",
-        document.body.classList.contains("dark-theme"));
+      localStorage.setItem("darkTheme", document.body.classList.contains("dark-theme"));
+      toggleBtn.textContent = document.body.classList.contains("dark-theme")
+        ? "☀️ Light Mode"
+        : "🌙 Dark Mode";
     };
+
+    function updateBadge(id, value) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      if (value > 0) {
+        el.style.display = "inline-flex";
+        el.textContent = value > 99 ? "99+" : String(value);
+      } else {
+        el.style.display = "none";
+      }
+    }
+
+    function loadNotificationBadges() {
+      fetch(`${API}/notifications/${session.data.id}/unread-summary`)
+        .then(res => res.ok ? res.json() : { request: 0, chat: 0 })
+        .then(summary => {
+          updateBadge("requestBadge", Number(summary.request || 0));
+          updateBadge("chatBadge", Number(summary.chat || 0));
+        })
+        .catch(() => {
+          updateBadge("requestBadge", 0);
+          updateBadge("chatBadge", 0);
+        });
+    }
+
+    loadNotificationBadges();
+    setInterval(loadNotificationBadges, 15000);
 </script>
 
 </body>

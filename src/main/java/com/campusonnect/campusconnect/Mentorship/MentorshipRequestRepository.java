@@ -11,4 +11,8 @@ public interface MentorshipRequestRepository
 
     // For student dashboard
     List<MentorshipRequest> findByStudentEmail(String studentEmail);
+
+    // Used by recent chat list to avoid showing non-chat-ready requests
+    List<MentorshipRequest> findByAlumni_UserIdAndStatus(Long userId, RequestStatus status);
+    List<MentorshipRequest> findByStudentEmailAndStatus(String studentEmail, RequestStatus status);
 }

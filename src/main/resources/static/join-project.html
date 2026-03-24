@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>Join Project — Campus Connect</title>
+    <link rel="stylesheet" href="styles.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<header class="app-header">
+    <h1>🤝 Join Project</h1>
+    <div class="header-right">
+        <button class="header-btn" onclick="goHome()">🏠 Home</button>
+        <button class="header-btn logout-btn" onclick="logout()">🚪 Logout</button>
+        <button class="header-btn" id="themeToggle">🌙 Light Mode</button>
+    </div>
+</header>
+
+<main class="container">
+    <section class="post-form">
+        <h2>Submit Your Application</h2>
+        <p>Introduce yourself to the project owner.</p>
+
+        <input id="applicantName" class="input-box" placeholder="Your Full Name" style="margin-bottom:15px; width:100%; padding:12px; border-radius:10px; border:1px solid #ccc; font-size:1rem;">
+
+        <input id="proof" class="input-box" placeholder="GitHub / Resume / Portfolio Link" style="width:100%; padding:12px; border-radius:10px; border:1px solid #ccc; font-size:1rem;">
+
+        <div class="header-actions" style="margin-top:20px;">
+            <button class="header-btn" onclick="submitApplication()">Submit Application</button>
+            <button class="header-btn logout-btn" onclick="goBack()">Cancel</button>
+        </div>
+    </section>
+</main>
+
+<footer class="footer">
+    <p>© 2025 Campus Connect | Project Compass</p>
+</footer>
+
+<script src="join-project.js"></script>
+<script>
+    // Theme logic
+    document.addEventListener("DOMContentLoaded", () => {
+      const toggleBtn = document.getElementById("themeToggle");
+      const isDark = localStorage.getItem("darkTheme") === "true";
+      if (isDark) { document.body.classList.add("dark-theme"); if(toggleBtn) toggleBtn.textContent="☀️ Light Mode"; }
+      if(toggleBtn) {
+        toggleBtn.addEventListener("click", () => {
+          document.body.classList.toggle("dark-theme");
+          localStorage.setItem("darkTheme", document.body.classList.contains("dark-theme"));
+          toggleBtn.textContent = document.body.classList.contains("dark-theme") ? "☀️ Light Mode" : "🌙 Dark Mode";
+        });
+      }
+    });
+</script>
+</body>
+</html>

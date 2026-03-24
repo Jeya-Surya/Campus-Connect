@@ -13,6 +13,12 @@ public class Notification {
     private String message;
     private boolean seen = false;
 
+    // REQUEST | CHAT | GENERAL
+    private String type;
+
+    // Optional context for fine-grained mark-as-read logic
+    private Long requestId;
+
     // getters & setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -25,4 +31,10 @@ public class Notification {
 
     public boolean isSeen() { return seen; }
     public void setSeen(boolean seen) { this.seen = seen; }
+
+    public String getType() { return type; }
+    public void setType(String type) { this.type = type; }
+
+    public Long getRequestId() { return requestId; }
+    public void setRequestId(Long requestId) { this.requestId = requestId; }
 }

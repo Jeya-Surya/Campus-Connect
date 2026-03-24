@@ -18,6 +18,7 @@
         }
 
         .home-card {
+          position: relative;
           background: #ffffff;
           padding: 30px;
           border-radius: 18px;
@@ -46,6 +47,24 @@
         body.dark-theme .home-card p {
           color: #bdbdbd;
         }
+
+        .badge {
+          position: absolute;
+          top: 12px;
+          right: 12px;
+          min-width: 22px;
+          height: 22px;
+          border-radius: 999px;
+          background: #ef4444;
+          color: #fff;
+          font-size: 12px;
+          font-weight: 700;
+          display: none;
+          align-items: center;
+          justify-content: center;
+          padding: 0 6px;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
     </style>
 </head>
 
@@ -54,6 +73,7 @@
 <header class="app-header">
     <h1>🎯 Student Home</h1>
     <div class="header-actions">
+        <button class="header-btn" onclick="goMentorshipHome()">🏠 Mentorship</button>
         <button class="header-btn" onclick="logout()">🚪 Logout</button>
         <button class="header-btn" id="themeToggle">🌙 Dark Mode</button>
     </div>
@@ -65,18 +85,19 @@
 
         <div class="home-card" onclick="goMentors()">
             <div style="font-size:42px;">🔍</div>
-            <h3>Find Alumni Mentors</h3>
+            <h3>See Alumni Profile</h3>
             <p>Browse alumni and request mentorship</p>
         </div>
 
         <div class="home-card" onclick="goRequests()">
+            <span class="badge" id="requestBadge">0</span>
             <div style="font-size:42px;">📄</div>
-            <h3>My Requests</h3>
+            <h3>My Request</h3>
             <p>Track mentorship request status</p>
         </div>
 
-        <!-- ✅ FIXED CHATS CARD -->
         <div class="home-card" onclick="goChats()">
+            <span class="badge" id="chatBadge">0</span>
             <div style="font-size:42px;">💬</div>
             <h3>Chats</h3>
             <p>Chat with accepted mentors</p>
@@ -102,15 +123,22 @@
     const toggleBtn = document.getElementById("themeToggle");
     if (localStorage.getItem("darkTheme") === "true") {
       document.body.classList.add("dark-theme");
+      toggleBtn.textContent = "☀️ Light Mode";
     }
 
     toggleBtn.onclick = () => {
       document.body.classList.toggle("dark-theme");
-      localStorage.setItem("darkTheme",
-        document.body.classList.contains("dark-theme"));
+      localStorage.setItem("darkTheme", document.body.classList.contains("dark-theme"));
+      toggleBtn.textContent = document.body.classList.contains("dark-theme")
+        ? "☀️ Light Mode"
+        : "🌙 Dark Mode";
     };
 
     // 🔀 navigation
+    function goMentorshipHome() {
+      window.location.href = "mentorship.html";
+    }
+
     function goMentors() {
       window.location.href = "student-mentorship.html";
     }
@@ -119,7 +147,6 @@
       window.location.href = "student-requests.html";
     }
 
-    // ✅ WHATSAPP-STYLE FLOW
     function goChats() {
       window.location.href = "recent-chats.html";
     }
@@ -128,6 +155,35 @@
       localStorage.clear();
       window.location.href = "login.html";
     }
+
+    const API = "http://localhost:8080/api";
+
+    function updateBadge(id, value) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      if (value > 0) {
+        el.style.display = "inline-flex";
+        el.textContent = value > 99 ? "99+" : String(value);
+      } else {
+        el.style.display = "none";
+      }
+    }
+
+    function loadNotificationBadges() {
+      fetch(`${API}/notifications/${session.data.id}/unread-summary`)
+        .then(res => res.ok ? res.json() : { request: 0, chat: 0 })
+        .then(summary => {
+          updateBadge("requestBadge", Number(summary.request || 0));
+          updateBadge("chatBadge", Number(summary.chat || 0));
+        })
+        .catch(() => {
+          updateBadge("requestBadge", 0);
+          updateBadge("chatBadge", 0);
+        });
+    }
+
+    loadNotificationBadges();
+    setInterval(loadNotificationBadges, 15000);
 </script>
 
 </body>

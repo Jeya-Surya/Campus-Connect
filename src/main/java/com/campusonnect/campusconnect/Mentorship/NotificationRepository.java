@@ -11,4 +11,8 @@ public interface NotificationRepository
     List<Notification> findByReceiverId(Long receiverId);
     List<Notification> findByReceiverIdAndSeenFalse(Long receiverId);
 
+    long countByReceiverIdAndSeenFalseAndType(Long receiverId, String type);
+
+    List<Notification> findByReceiverIdAndSeenFalseAndType(Long receiverId, String type);
+    List<Notification> findByReceiverIdAndSeenFalseAndTypeAndRequestId(Long receiverId, String type, Long requestId);
 }

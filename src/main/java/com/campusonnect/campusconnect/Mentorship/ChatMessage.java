@@ -14,10 +14,21 @@ public class ChatMessage {
     private Long mentorshipRequestId;
     private Long senderId;
     private String senderRole;
+    private String senderName;
     private Long receiverId;
 
     @Column(columnDefinition = "TEXT")
     private String message;
+
+    private String fileUrl;
+    private String fileName;
+
+    // Reply metadata (same pattern as study group posts)
+    private Long replyToId;
+    private String replyToAuthor;
+
+    @Column(columnDefinition = "TEXT")
+    private String replyToContent;
 
     private LocalDateTime createdAt;
 
@@ -55,6 +66,14 @@ public class ChatMessage {
         this.senderRole = senderRole;
     }
 
+    public String getSenderName() {
+        return senderName;
+    }
+
+    public void setSenderName(String senderName) {
+        this.senderName = senderName;
+    }
+
     public Long getReceiverId() {
         return receiverId;
     }
@@ -69,6 +88,46 @@ public class ChatMessage {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getFileUrl() {
+        return fileUrl;
+    }
+
+    public void setFileUrl(String fileUrl) {
+        this.fileUrl = fileUrl;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public Long getReplyToId() {
+        return replyToId;
+    }
+
+    public void setReplyToId(Long replyToId) {
+        this.replyToId = replyToId;
+    }
+
+    public String getReplyToAuthor() {
+        return replyToAuthor;
+    }
+
+    public void setReplyToAuthor(String replyToAuthor) {
+        this.replyToAuthor = replyToAuthor;
+    }
+
+    public String getReplyToContent() {
+        return replyToContent;
+    }
+
+    public void setReplyToContent(String replyToContent) {
+        this.replyToContent = replyToContent;
     }
 
     public LocalDateTime getCreatedAt() {

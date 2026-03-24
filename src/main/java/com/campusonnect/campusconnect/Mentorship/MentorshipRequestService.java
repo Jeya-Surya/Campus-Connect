@@ -54,12 +54,16 @@ public class MentorshipRequestService {
         Notification n1 = new Notification();
         n1.setReceiverId(alumniUserId);
         n1.setMessage("You received a new mentorship request from " + studentName);
+        n1.setType("REQUEST");
+        n1.setRequestId(saved.getId());
         notificationRepository.save(n1);
 
         // notify student
         Notification n2 = new Notification();
         n2.setReceiverId(student.getId());
         n2.setMessage("Your mentorship request was sent successfully");
+        n2.setType("REQUEST");
+        n2.setRequestId(saved.getId());
         notificationRepository.save(n2);
 
         return saved;
@@ -95,6 +99,8 @@ public class MentorshipRequestService {
         Notification notif = new Notification();
         notif.setReceiverId(student.getId());
         notif.setMessage("Your mentorship request was " + newStatus.name().toLowerCase());
+        notif.setType("REQUEST");
+        notif.setRequestId(saved.getId());
         notificationRepository.save(notif);
 
         return saved;
