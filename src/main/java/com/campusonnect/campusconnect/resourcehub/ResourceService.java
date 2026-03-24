@@ -6,6 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.nio.file.*;
 import java.security.MessageDigest;
 import java.util.Base64;
+import java.util.UUID;
 
 @Service
 public class ResourceService {
@@ -16,21 +17,20 @@ public class ResourceService {
         this.repo = repo;
     }
 
-    public void save(MultipartFile file, Resource r) throws Exception {
+    public String save(MultipartFile file, Resource r) throws Exception {
 
         boolean safe = true;
 
-        // 1️⃣ Only PDF
-        if (!"application/pdf".equals(file.getContentType())) {
+        String originalName = file.getOriginalFilename() == null ? "" : file.getOriginalFilename().toLowerCase();
+        boolean pdfByType = "application/pdf".equalsIgnoreCase(file.getContentType());
+        boolean pdfByName = originalName.endsWith(".pdf");
+
+        // 1) Only PDF
+        if (!pdfByType && !pdfByName) {
             safe = false;
         }
 
-        // 2️⃣ Max size 10MB
-        if (file.getSize() > 10 * 1024 * 1024) {
-            safe = false;
-        }
-
-        // 3️⃣ Duplicate check (SHA-256)
+        // 2) Duplicate check (SHA-256)
         MessageDigest md = MessageDigest.getInstance("SHA-256");
         String hash = Base64.getEncoder().encodeToString(md.digest(file.getBytes()));
 
@@ -41,14 +41,15 @@ public class ResourceService {
         if (!safe) {
             r.setStatus("REJECTED");
             repo.save(r);
-            return;
+            return "REJECTED";
         }
 
-        // 4️⃣ Save file
+        // 3) Save file
         Path uploadDir = Paths.get("uploads");
         Files.createDirectories(uploadDir);
 
-        Path filePath = uploadDir.resolve(file.getOriginalFilename());
+        String safeName = UUID.randomUUID() + "_" + (file.getOriginalFilename() == null ? "resource.pdf" : file.getOriginalFilename());
+        Path filePath = uploadDir.resolve(safeName);
         Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
         r.setFilePath(filePath.toString());
@@ -58,5 +59,6 @@ public class ResourceService {
         r.setStatus("APPROVED");
 
         repo.save(r);
+        return "APPROVED";
     }
 }

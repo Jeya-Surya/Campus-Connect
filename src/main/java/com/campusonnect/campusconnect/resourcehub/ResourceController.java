@@ -24,7 +24,7 @@ public class ResourceController {
 
     @GetMapping
     public List<Resource> list() {
-        return repo.findByStatus("APPROVED");
+        return repo.findByStatusOrderByIdDesc("APPROVED");
     }
 
     @PostMapping("/upload")
@@ -46,7 +46,10 @@ public class ResourceController {
             r.setSubject(subject);
             r.setSemester(semester);
 
-            service.save(file, r);
+            String saveStatus = service.save(file, r);
+            if ("REJECTED".equals(saveStatus)) {
+                return ResponseEntity.badRequest().body("Upload rejected. Only unique PDF files are allowed.");
+            }
 
             return ResponseEntity.ok("Upload successful");
 
@@ -55,15 +58,29 @@ public class ResourceController {
         }
     }
 
-    // ✅ SEARCH (THIS WILL WORK)
+    // ✅ Flexible search that supports empty filters from UI
     @GetMapping("/search")
     public List<Resource> search(
-            @RequestParam String subject,
-            @RequestParam Integer semester
+            @RequestParam(required = false) String type,
+            @RequestParam(required = false) String subject,
+            @RequestParam(required = false) String college,
+            @RequestParam(required = false) Integer semester
     ) {
-        return repo.findByStatusAndSubjectContainingIgnoreCaseAndSemester(
-                "APPROVED", subject, semester
+        return repo.searchApproved(
+                "APPROVED",
+                clean(type),
+                clean(subject),
+                clean(college),
+                semester
         );
+    }
+
+    private String clean(String value) {
+        if (value == null) {
+            return null;
+        }
+        String trimmed = value.trim();
+        return trimmed.isEmpty() ? null : trimmed;
     }
 
     @GetMapping("/download/{id}")
