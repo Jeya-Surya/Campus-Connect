@@ -2,7 +2,7 @@
    Study Clubs (Custom Emoji) - SAFE MODE
    =============================== */
 
-const API_BASE = "http://localhost:8080/api/study-groups";
+const API_BASE = getApiBase() + "/study-groups";
 
 // 1. Session Logic (Wrapped in try-catch to prevent crashing)
 let user = null;

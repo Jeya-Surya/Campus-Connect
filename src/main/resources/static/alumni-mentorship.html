@@ -92,6 +92,7 @@
     <p>© 2025 Campus Connect | Mentorship Program</p>
 </footer>
 
+<script src="api-config.js"></script>
 <script>
     // Theme persistence
     const themeBtn = document.getElementById("themeToggle");
@@ -123,7 +124,7 @@
 };
 
 
-      const res = await fetch("http://localhost:8080/api/alumni", {
+      const res = await fetch(`${getApiBase()}/alumni`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(alumni)
@@ -150,7 +151,7 @@ document.addEventListener("DOMContentLoaded", () => {
   loadRequests();
 
   function loadRequests() {
-    fetch(`http://localhost:8080/api/mentorship/requests/${user.id}`)
+    fetch(`${getApiBase()}/mentorship/requests/${user.id}`)
       .then(res => res.json())
       .then(data => {
         list.innerHTML = "";
@@ -183,7 +184,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   window.updateStatus = function (requestId, status) {
     fetch(
-      `http://localhost:8080/api/mentorship/${requestId}/status` +
+      `${getApiBase()}/mentorship/${requestId}/status` +
       `?alumniUserId=${user.id}&status=${status}`,
       { method: "PUT" }
     ).then(() => loadRequests());

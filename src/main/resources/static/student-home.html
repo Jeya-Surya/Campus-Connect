@@ -111,6 +111,7 @@
     <p>© 2025 Campus Connect | Student Portal</p>
 </footer>
 
+<script src="api-config.js"></script>
 <script>
     // 🔐 session check
     const session = JSON.parse(localStorage.getItem("user"));
@@ -156,7 +157,7 @@
       window.location.href = "login.html";
     }
 
-    const API = "http://localhost:8080/api";
+    const API = getApiBase();
 
     function updateBadge(id, value) {
       const el = document.getElementById(id);

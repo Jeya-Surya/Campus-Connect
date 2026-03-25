@@ -102,6 +102,7 @@
     <p>© 2025 Campus Connect | Mentorship Program</p>
 </footer>
 
+<script src="api-config.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", async () => {
 
@@ -114,7 +115,7 @@
       }
 
       const userId = session.data.id;
-      const API = "http://localhost:8080/api";
+      const API = getApiBase();
 
       // ========= THEME =========
       const toggleBtn = document.getElementById("themeToggle");

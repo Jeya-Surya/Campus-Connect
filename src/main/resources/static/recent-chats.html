@@ -119,6 +119,7 @@
 
 <div id="chatContainer"></div>
 
+<script src="api-config.js"></script>
 <script>
     const sessionWrapper = JSON.parse(localStorage.getItem("user") || "null");
     if (!sessionWrapper || !sessionWrapper.data) {
@@ -127,7 +128,7 @@
     }
 
     const session = sessionWrapper.data;
-    const API = "http://localhost:8080/api";
+    const API = getApiBase();
 
     const themeToggle = document.getElementById("themeToggle");
     if (localStorage.getItem("darkTheme") === "true") {

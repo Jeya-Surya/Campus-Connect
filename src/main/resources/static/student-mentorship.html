@@ -112,8 +112,9 @@
     <p>© 2025 Campus Connect | Student Mentorship</p>
 </footer>
 
+<script src="api-config.js"></script>
 <script>
-    const API = "http://localhost:8080/api";
+    const API = getApiBase();
 
     // 🔐 SESSION CHECK
     const session = JSON.parse(localStorage.getItem("user"));
@@ -223,7 +224,7 @@
 </script>
 <script>
     (() => {
-      const api = "http://localhost:8080/api";
+      const api = getApiBase();
       const sessionData = JSON.parse(localStorage.getItem("user"));
 
       if (!sessionData || !sessionData.data) {

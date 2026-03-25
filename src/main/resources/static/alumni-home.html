@@ -126,6 +126,7 @@
     <p>© 2025 Campus Connect | Alumni</p>
 </footer>
 
+<script src="api-config.js"></script>
 <script>
     const session = JSON.parse(localStorage.getItem("user"));
     if (!session || !session.data) {
@@ -133,7 +134,7 @@
       window.location.href = "login.html";
     }
 
-    const API = "http://localhost:8080/api";
+    const API = getApiBase();
 
     function goMentorshipHome() {
       window.location.href = "mentorship.html";

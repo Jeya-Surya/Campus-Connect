@@ -2,7 +2,7 @@
    Club Room Logic (Tasks, Replies, Files)
    =============================== */
 
-const API_BASE = "http://localhost:8080/api/study-groups";
+const API_BASE = getApiBase() + "/study-groups";
 let isGroupAdmin = false;
 
 // State Variables for New Features
@@ -125,10 +125,10 @@ async function loadPosts() {
             if (post.fileUrl) {
                 // Determine if it's an image based on extension
                 if (post.fileUrl.match(/\.(jpeg|jpg|gif|png)$/i)) {
-                    // Prepend http://localhost:8080 if your API runs on different port than frontend
-                    imageHtml = `<img class="msg-image" src="http://localhost:8080${post.fileUrl}" alt="Attached Image" onclick="window.open(this.src, '_blank')">`;
+                    // Prepend server origin if running locally, empty string in production
+                    imageHtml = `<img class="msg-image" src="${getServerOrigin()}${post.fileUrl}" alt="Attached Image" onclick="window.open(this.src, '_blank')">`;
                 } else {
-                    imageHtml = `<a href="http://localhost:8080${post.fileUrl}" target="_blank" style="color:inherit; text-decoration:underline; font-weight:bold; display:block; margin-bottom:5px;">📎 View Attached File</a>`;
+                    imageHtml = `<a href="${getServerOrigin()}${post.fileUrl}" target="_blank" style="color:inherit; text-decoration:underline; font-weight:bold; display:block; margin-bottom:5px;">📎 View Attached File</a>`;
                 }
             }
 

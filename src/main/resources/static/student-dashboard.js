@@ -18,7 +18,7 @@ if (!email) {
   window.location.href = "login.html";
 }
 
-fetch(`http://localhost:8080/api/mentorship/student/requests?email=${email}`)
+fetch(`${getApiBase()}/mentorship/student/requests?email=${email}`)
   .then(res => res.json())
   .then(data => {
     render(data);

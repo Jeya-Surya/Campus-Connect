@@ -2,7 +2,7 @@
    Project Compass - High Contrast UI (With Roles & Cards)
    =============================== */
 
-const API_BASE = "http://localhost:8080/api/project-compass";
+const API_BASE = getApiBase() + "/project-compass";
 
 // 1. User Logic
 let user = null;
