@@ -1,4 +1,4 @@
-const API_BASE = 'http://localhost:8080/api'; // adjust if backend host/port differ
+const API_BASE = getApiBase(); // dynamically set based on environment
 
 // fetch all doubts
 async function fetchDoubts() {

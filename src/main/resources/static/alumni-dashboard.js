@@ -1,4 +1,4 @@
-const API = "http://localhost:8080/api";
+const API = getApiBase();
 
 /* ================= SESSION CHECK ================= */
 const session = JSON.parse(localStorage.getItem("user") || "null");

@@ -1,4 +1,4 @@
-const API_BASE = "http://localhost:8080/api/project-compass/apply";
+const API_BASE = getApiBase() + "/project-compass/apply";
 
 // Get user session safely
 let user = null;

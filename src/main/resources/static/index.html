@@ -65,6 +65,7 @@
     <p>© 2025 Campus Connect | Made with ❤️ for learners</p>
 </footer>
 
+<script src="api-config.js"></script>
 <script>
     // ✅ Always require login — runs when the page loads
     window.addEventListener("DOMContentLoaded", () => {
@@ -287,7 +288,7 @@
           return;
         }
 
-        fetch(`http://localhost:8080/api/mentorship/requests/${alumniId}`)
+        fetch(`${getApiBase()}/mentorship/requests/${alumniId}`)
           .then(res => res.json())
           .then(data => {
 
@@ -325,7 +326,7 @@
       // 🔁 REQUIRED FUNCTION (WAS MISSING)
       window.updateStatus = function (requestId, status) {
         fetch(
-          `http://localhost:8080/api/mentorship/${requestId}/status?status=${status}`,
+          `${getApiBase()}/mentorship/${requestId}/status?status=${status}`,
           { method: "PUT" }
         ).then(() => loadMentorshipRequests());
       };

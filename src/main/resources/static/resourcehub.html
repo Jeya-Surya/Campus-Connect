@@ -182,8 +182,9 @@
     </div>
 </main>
 
+<script src="api-config.js"></script>
 <script>
-    const API = "http://localhost:8080/api/resources";
+    const API = getApiBase() + "/resources";
 
     const uploadFormEl = document.getElementById("uploadForm");
     const uploadBtnEl = document.getElementById("uploadBtn");

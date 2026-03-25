@@ -68,8 +68,9 @@
     <p>© 2025 Campus Connect | Student Requests</p>
 </footer>
 
+<script src="api-config.js"></script>
 <script>
-    const API = "http://localhost:8080/api";
+    const API = getApiBase();
 
     /* ===== SESSION CHECK ===== */
     const session = JSON.parse(localStorage.getItem("user"));

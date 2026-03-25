@@ -24,7 +24,7 @@ if (alumniTab && studentTab && alumniSection && studentSection) {
 const alumniList = document.getElementById("alumniList");
 
 if (alumniList) {
-  fetch("http://localhost:8080/api/alumni")
+  fetch(`${getApiBase()}/alumni`)
     .then(res => res.json())
     .then(data => {
       alumniList.innerHTML = "";
@@ -66,7 +66,7 @@ function sendMentorshipRequest() {
   const category = document.getElementById("category")?.value;
 
   fetch(
-    `http://localhost:8080/api/mentorship/send/${selectedAlumniId}` +
+    `${getApiBase()}/mentorship/send/${selectedAlumniId}` +
       `?studentName=${encodeURIComponent(name)}` +
       `&studentEmail=${encodeURIComponent(email)}` +
       `&message=${encodeURIComponent(message)}` +
@@ -101,7 +101,7 @@ notifBell.addEventListener("click", () => {
 function loadNotifications() {
   notifList.innerHTML = "<p>Loading...</p>";
 
-  fetch(`http://localhost:8080/api/mentorship/requests/${alumniId}`)
+  fetch(`${getApiBase()}/mentorship/requests/${alumniId}`)
     .then(res => res.json())
     .then(data => {
       notifList.innerHTML = "";
