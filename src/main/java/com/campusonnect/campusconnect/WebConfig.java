@@ -13,14 +13,15 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        // 1. Keep your file upload mapping working
+        // 1. Maintain your existing file uploads mapping
         Path uploadDir = Paths.get("uploads");
         String uploadPath = uploadDir.toFile().getAbsolutePath();
         
         registry.addResourceHandler("/uploads/**")
                 .addResourceLocations("file:" + uploadPath + "/");
 
-        // 2. Ensure all your frontend files (HTML, CSS, JS) are served correctly
+        // 2. EXPLICITLY TELL SPRING BOOT WHERE YOUR FRONTEND IS
+        // This maps the root URL to your static folder
         registry.addResourceHandler("/**")
                 .addResourceLocations("classpath:/static/");
     }
