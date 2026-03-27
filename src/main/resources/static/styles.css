@@ -788,7 +788,8 @@ body:not(.dark-theme) .event-card:hover {
   .header-btn {
     padding: 7px 14px;
     font-size: 0.85rem;
-    min-width: 90px;
+    min-width: 88px;
+    min-height: 44px;
   }
 
   /* Grid layouts - 2 columns on tablet */
@@ -855,9 +856,10 @@ body:not(.dark-theme) .event-card:hover {
   }
 
   .header-btn {
-    flex: 1 1 auto;
-    min-width: 100px;
-    padding: 8px 12px;
+    flex: 0 0 auto;
+    min-width: 88px;
+    min-height: 44px;
+    padding: 7px 12px;
     font-size: 0.85rem;
   }
 
@@ -1019,7 +1021,8 @@ body:not(.dark-theme) .event-card:hover {
   .header-btn {
     padding: 6px 10px;
     font-size: 0.8rem;
-    min-width: 80px;
+    min-width: 72px;
+    min-height: 44px;
   }
 
   /* Cards - More compact */
@@ -1089,5 +1092,3 @@ body:not(.dark-theme) .event-card:hover {
     padding: 14px;
   }
 }
-
-

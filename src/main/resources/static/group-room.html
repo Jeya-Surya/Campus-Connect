@@ -19,10 +19,11 @@
         .room-sidebar {
             width: 320px; background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px);
             border-right: 1px solid var(--border-light, #e0e6ef); display: flex; flex-direction: column;
-            padding: 20px; overflow-y: auto; box-shadow: 2px 0 10px rgba(0,0,0,0.02); z-index: 10;
+            padding: 20px; overflow-y: auto; box-shadow: 2px 0 10px rgba(0,0,0,0.02); z-index: 110;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateX(0);
         }
-        .room-sidebar.collapsed { width: 0; padding: 0; border: none; overflow: hidden; opacity: 0; }
+        .room-sidebar.collapsed { width: 0; padding: 0; border: none; overflow: hidden; opacity: 0; transform: translateX(-100%); pointer-events: none; box-shadow: none; }
 
         /* Sidebar overlay for mobile - appears behind sidebar when open */
         .sidebar-overlay {
@@ -205,7 +206,8 @@
             .header-btn {
                 padding: 7px 14px;
                 font-size: 0.85rem;
-                min-width: 90px;
+                min-width: 88px;
+                min-height: 44px;
             }
 
             /* Sidebar narrower on tablet */
@@ -252,6 +254,12 @@
 
             .room-sidebar.collapsed {
                 transform: translateX(-100%);
+            }
+
+            #sidebarToggle {
+                padding: 6px 12px !important;
+                font-size: 1rem !important;
+                min-width: 48px;
             }
 
             .room-main {
