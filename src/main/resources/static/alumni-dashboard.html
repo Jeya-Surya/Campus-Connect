@@ -58,7 +58,52 @@
         .accept { background: #22c55e; color: #fff; }
         .reject { background: #ef4444; color: #fff; }
         .chat   { background: #2563eb; color: #fff; }
-    </style>
+
+        /* ===== RESPONSIVE STYLES FOR ALUMNI DASHBOARD ===== */
+        @media (max-width: 767px) {
+            .section-title {
+                font-size: 1.3rem;
+                margin: 25px 0 12px;
+            }
+
+            .request-list {
+                gap: 16px;
+            }
+
+            .request-card {
+                padding: 16px;
+            }
+
+            .request-card p {
+                font-size: 0.9rem;
+            }
+
+            .actions {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .btn {
+                width: 100%;
+                padding: 10px 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .section-title {
+                font-size: 1.2rem;
+            }
+
+            .request-card {
+                padding: 14px;
+            }
+
+            .btn {
+                padding: 9px 12px;
+                font-size: 0.9rem;
+            }
+        }
+</style>
 </head>
 
 <body>
