@@ -34,7 +34,72 @@
         .close-btn { position: absolute; top: 20px; right: 25px; font-size: 28px; cursor: pointer; color: #888; }
 
         /* ===== RESPONSIVE STYLES FOR STUDY GROUPS ===== */
+
+        /* Tablet breakpoint (768px - 1024px) */
+        @media (max-width: 1024px) and (min-width: 768px) {
+            /* Hero section - Optimize for tablet */
+            .post-form h2 {
+                font-size: 2rem !important;
+            }
+
+            .post-form p {
+                font-size: 1rem !important;
+            }
+
+            .post-form button {
+                font-size: 1rem !important;
+                padding: 10px 24px !important;
+            }
+
+            /* Club grid - 2-3 columns on tablet */
+            .club-grid {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+                gap: 20px;
+            }
+
+            .club-card {
+                padding: 26px 18px;
+            }
+
+            .club-emoji {
+                width: 80px;
+                height: 80px;
+                font-size: 3.2rem;
+            }
+
+            .club-card h3 {
+                font-size: 1.2rem;
+            }
+
+            .btn-join-club {
+                padding: 9px 20px;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Mobile breakpoint (max-width: 767px) */
         @media (max-width: 767px) {
+            /* Hero section - Optimize for mobile */
+            .post-form {
+                padding: 40px 16px !important;
+            }
+
+            .post-form h2 {
+                font-size: 1.8rem !important;
+                margin-bottom: 8px !important;
+            }
+
+            .post-form p {
+                font-size: 0.95rem !important;
+                margin-bottom: 20px !important;
+            }
+
+            .post-form button {
+                font-size: 0.95rem !important;
+                padding: 10px 24px !important;
+                min-height: 44px; /* Better touch target */
+            }
+
             /* Club grid - Single column on mobile */
             .club-grid {
                 grid-template-columns: 1fr;
@@ -62,15 +127,7 @@
             .btn-join-club {
                 padding: 10px 20px;
                 font-size: 0.9rem;
-            }
-
-            /* Hero section */
-            .post-form h2 {
-                font-size: 1.8rem !important;
-            }
-
-            .post-form p {
-                font-size: 0.95rem !important;
+                min-height: 44px; /* Better touch target */
             }
 
             /* Modal adjustments */
@@ -91,7 +148,27 @@
             }
         }
 
+        /* Small mobile breakpoint (max-width: 480px) */
         @media (max-width: 480px) {
+            /* Hero section - Further reduce for small phones */
+            .post-form {
+                padding: 30px 14px !important;
+            }
+
+            .post-form h2 {
+                font-size: 1.5rem !important;
+            }
+
+            .post-form p {
+                font-size: 0.9rem !important;
+            }
+
+            .post-form button {
+                font-size: 0.9rem !important;
+                padding: 10px 20px !important;
+            }
+
+            /* Club cards */
             .club-card {
                 padding: 20px 16px;
             }
@@ -104,10 +181,6 @@
 
             .club-card h3 {
                 font-size: 1.1rem;
-            }
-
-            .post-form h2 {
-                font-size: 1.5rem !important;
             }
 
             .modal-content {

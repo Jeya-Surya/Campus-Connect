@@ -170,7 +170,9 @@
         body.dark-theme .msg-content code { background: rgba(255, 255, 255, 0.15); color: #eee; }
 
         /* ===== RESPONSIVE STYLES FOR GROUP ROOM ===== */
-        @media (max-width: 1024px) {
+
+        /* Tablet breakpoint (768px - 1024px) */
+        @media (max-width: 1024px) and (min-width: 768px) {
             /* Sidebar narrower on tablet */
             .room-sidebar {
                 width: 280px;
@@ -180,8 +182,26 @@
             .feed-container {
                 padding: 20px 3%;
             }
+
+            .club-header-emoji {
+                font-size: 3.2rem;
+            }
+
+            .club-header h2 {
+                font-size: 1.25rem;
+            }
+
+            .msg-bubble {
+                max-width: 75%;
+            }
+
+            .btn-send {
+                width: 48px;
+                height: 48px;
+            }
         }
 
+        /* Mobile breakpoint (max-width: 767px) */
         @media (max-width: 767px) {
             /* Collapsible sidebar on mobile */
             .room-sidebar {
@@ -294,8 +314,14 @@
                 padding: 7px;
                 font-size: 0.8rem;
             }
+
+            .btn-leave {
+                padding: 10px;
+                font-size: 0.9rem;
+            }
         }
 
+        /* Small mobile breakpoint (max-width: 480px) */
         @media (max-width: 480px) {
             /* Even more compact for small phones */
             .room-sidebar {

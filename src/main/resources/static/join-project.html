@@ -5,6 +5,137 @@
     <title>Join Project — Campus Connect</title>
     <link rel="stylesheet" href="styles.css"/>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ===== JOIN PROJECT PAGE RESPONSIVE STYLES ===== */
+
+        /* Ensure form inputs have proper styling */
+        .input-box {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            font-size: 1rem;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .input-box:focus {
+            outline: none;
+            border-color: #6c63ff;
+        }
+
+        /* Dark mode support for inputs */
+        body.dark-theme .input-box {
+            background: #333;
+            color: #fff;
+            border-color: #555;
+        }
+
+        body.dark-theme .input-box:focus {
+            border-color: #8c85ff;
+        }
+
+        /* Tablet breakpoint (768px - 1024px) */
+        @media (max-width: 1024px) and (min-width: 768px) {
+            .container {
+                padding: 0 30px 60px;
+            }
+
+            .post-form {
+                padding: 30px;
+            }
+
+            .post-form h2 {
+                font-size: 1.8rem;
+            }
+
+            .post-form p {
+                font-size: 1rem;
+            }
+
+            .input-box {
+                padding: 12px;
+                font-size: 0.95rem;
+            }
+
+            .header-btn {
+                padding: 9px 18px;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Mobile breakpoint (max-width: 767px) */
+        @media (max-width: 767px) {
+            .container {
+                padding: 0 16px 50px;
+            }
+
+            .post-form {
+                padding: 20px;
+            }
+
+            .post-form h2 {
+                font-size: 1.5rem;
+                margin-bottom: 10px;
+            }
+
+            .post-form p {
+                font-size: 0.9rem;
+                margin-bottom: 20px;
+            }
+
+            .input-box {
+                padding: 12px;
+                font-size: 16px !important; /* Prevents zoom on iOS */
+                margin-bottom: 15px !important;
+            }
+
+            /* Header actions - Stack buttons */
+            .header-actions {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                margin-top: 20px !important;
+            }
+
+            .header-actions .header-btn {
+                width: 100%;
+                padding: 12px;
+                font-size: 0.95rem;
+                min-height: 44px; /* Better touch target */
+                text-align: center;
+            }
+        }
+
+        /* Small mobile breakpoint (max-width: 480px) */
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 12px 40px;
+            }
+
+            .post-form {
+                padding: 16px;
+            }
+
+            .post-form h2 {
+                font-size: 1.3rem;
+            }
+
+            .post-form p {
+                font-size: 0.85rem;
+            }
+
+            .input-box {
+                padding: 10px;
+            }
+
+            .header-actions .header-btn {
+                padding: 11px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
 </head>
 
 <body>
