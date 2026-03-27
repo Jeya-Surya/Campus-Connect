@@ -99,7 +99,67 @@
         .btn-cancel { background: transparent; color: #666; border: none; padding: 12px 25px; cursor: pointer; z-index: 10001; font-weight: 600; }
 
         /* ===== RESPONSIVE STYLES FOR PROJECT COMPASS ===== */
+
+        /* Tablet breakpoint (768px - 1024px) */
+        @media (max-width: 1024px) and (min-width: 768px) {
+            /* Hero section - Reduce sizes for tablet */
+            .post-form h2 {
+                font-size: 2rem !important;
+            }
+
+            .post-form p {
+                font-size: 1rem !important;
+            }
+
+            .post-form button {
+                font-size: 1rem !important;
+                padding: 10px 24px !important;
+            }
+
+            /* Project grid - 2 columns on tablet */
+            .project-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                gap: 20px;
+            }
+
+            .project-card {
+                padding: 22px;
+            }
+
+            .project-card h3 {
+                font-size: 1.2rem;
+            }
+
+            /* Action buttons - Keep horizontal but smaller */
+            .action-btn {
+                padding: 9px 16px;
+                font-size: 0.85rem;
+            }
+        }
+
+        /* Mobile breakpoint (max-width: 767px) */
         @media (max-width: 767px) {
+            /* Hero section - Optimize for mobile */
+            .post-form {
+                padding: 40px 16px !important;
+            }
+
+            .post-form h2 {
+                font-size: 1.8rem !important;
+                margin-bottom: 12px !important;
+            }
+
+            .post-form p {
+                font-size: 0.95rem !important;
+                margin-bottom: 25px !important;
+            }
+
+            .post-form button {
+                font-size: 0.95rem !important;
+                padding: 10px 24px !important;
+                min-height: 44px; /* Better touch target */
+            }
+
             /* Project grid - Single column on mobile */
             .project-grid {
                 grid-template-columns: 1fr;
@@ -141,6 +201,7 @@
                 width: 100%;
                 justify-content: center;
                 padding: 10px 16px;
+                min-height: 44px; /* Better touch target */
             }
 
             .owner-badge {
@@ -168,10 +229,31 @@
             .btn-submit,
             .btn-cancel {
                 width: 100%;
+                min-height: 44px; /* Better touch target */
             }
         }
 
+        /* Small mobile breakpoint (max-width: 480px) */
         @media (max-width: 480px) {
+            /* Hero section - Further reduce for small phones */
+            .post-form {
+                padding: 30px 14px !important;
+            }
+
+            .post-form h2 {
+                font-size: 1.5rem !important;
+            }
+
+            .post-form p {
+                font-size: 0.9rem !important;
+            }
+
+            .post-form button {
+                font-size: 0.9rem !important;
+                padding: 10px 20px !important;
+            }
+
+            /* Project cards */
             .project-card {
                 padding: 16px;
                 border-radius: 16px;
