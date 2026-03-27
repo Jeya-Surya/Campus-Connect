@@ -98,6 +98,99 @@
         .btn-submit { background: #6c63ff; color: white; border: none; padding: 12px 25px; border-radius: 8px; font-weight: bold; cursor: pointer; z-index: 10001; }
         .btn-cancel { background: transparent; color: #666; border: none; padding: 12px 25px; cursor: pointer; z-index: 10001; font-weight: 600; }
 
+        /* ===== RESPONSIVE STYLES FOR PROJECT COMPASS ===== */
+        @media (max-width: 767px) {
+            /* Project grid - Single column on mobile */
+            .project-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .project-card {
+                padding: 20px;
+            }
+
+            .project-card h3 {
+                font-size: 1.15rem;
+            }
+
+            .project-card p.desc {
+                font-size: 0.9rem;
+            }
+
+            /* Roles section */
+            .roles-section {
+                padding: 10px;
+                font-size: 0.85rem;
+            }
+
+            /* Skill tags */
+            .skill-tag {
+                font-size: 0.8rem;
+                padding: 5px 12px;
+                margin: 0 4px 4px 0;
+            }
+
+            /* Card actions - Stack on mobile */
+            .card-actions {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .action-btn {
+                width: 100%;
+                justify-content: center;
+                padding: 10px 16px;
+            }
+
+            .owner-badge {
+                width: 100%;
+                justify-content: center;
+                padding: 8px 12px;
+            }
+
+            /* Modal adjustments */
+            .modal-content {
+                padding: 25px;
+                width: 95%;
+            }
+
+            .modern-input {
+                padding: 12px;
+                font-size: 16px; /* Prevents zoom on iOS */
+            }
+
+            .modal-actions {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .btn-submit,
+            .btn-cancel {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .project-card {
+                padding: 16px;
+                border-radius: 16px;
+            }
+
+            .project-card h3 {
+                font-size: 1.1rem;
+            }
+
+            .action-btn {
+                font-size: 0.85rem;
+                padding: 9px 14px;
+            }
+
+            .modal-content {
+                padding: 20px;
+            }
+        }
+
         .request-card { background: #f9f9f9; padding: 15px; border-radius: 10px; margin-bottom: 10px; border-left: 4px solid #6c63ff; }
         .btn-accept { background: #2ecc71; color: white; border:none; padding:8px 12px; border-radius:6px; cursor:pointer; margin-right:5px; font-weight: 600;}
         .btn-reject { background: #e74c3c; color: white; border:none; padding:8px 12px; border-radius:6px; cursor:pointer; font-weight: 600;}

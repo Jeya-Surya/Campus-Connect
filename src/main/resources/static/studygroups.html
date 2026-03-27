@@ -32,7 +32,89 @@
         .modern-input { width: 100%; padding: 14px; border-radius: 12px; border: 2px solid #ccc; font-size: 1rem; margin-bottom: 15px; background: #f0f2f5; }
         body.dark-theme .modern-input { background: #333; color: #fff; border-color: #555; }
         .close-btn { position: absolute; top: 20px; right: 25px; font-size: 28px; cursor: pointer; color: #888; }
-    </style>
+
+        /* ===== RESPONSIVE STYLES FOR STUDY GROUPS ===== */
+        @media (max-width: 767px) {
+            /* Club grid - Single column on mobile */
+            .club-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .club-card {
+                padding: 24px 18px;
+            }
+
+            .club-emoji {
+                width: 75px;
+                height: 75px;
+                font-size: 3rem;
+            }
+
+            .club-card h3 {
+                font-size: 1.15rem;
+            }
+
+            .club-card p {
+                font-size: 0.85rem;
+            }
+
+            .btn-join-club {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+
+            /* Hero section */
+            .post-form h2 {
+                font-size: 1.8rem !important;
+            }
+
+            .post-form p {
+                font-size: 0.95rem !important;
+            }
+
+            /* Modal adjustments */
+            .modal-content {
+                padding: 25px;
+                width: 95%;
+            }
+
+            .modern-input {
+                padding: 12px;
+                font-size: 16px; /* Prevents zoom on iOS */
+            }
+
+            #clubEmoji {
+                font-size: 2rem !important;
+                width: 80px !important;
+                padding: 8px !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .club-card {
+                padding: 20px 16px;
+            }
+
+            .club-emoji {
+                width: 65px;
+                height: 65px;
+                font-size: 2.5rem;
+            }
+
+            .club-card h3 {
+                font-size: 1.1rem;
+            }
+
+            .post-form h2 {
+                font-size: 1.5rem !important;
+            }
+
+            .modal-content {
+                padding: 20px;
+            }
+        }
+</style>
 </head>
 
 <body>

@@ -55,7 +55,49 @@
         .continue-btn:hover {
           opacity: 0.9;
         }
-    </style>
+
+        /* ===== RESPONSIVE STYLES FOR MENTORSHIP ===== */
+        @media (max-width: 767px) {
+            .role-container {
+                gap: 20px;
+                margin-top: 30px;
+            }
+
+            .role-card {
+                width: 100%;
+                max-width: 340px;
+                padding: 24px;
+            }
+
+            .role-card h3 {
+                font-size: 1.2rem;
+            }
+
+            .role-card p {
+                font-size: 0.9rem;
+            }
+
+            .continue-btn {
+                padding: 11px;
+                font-size: 0.95rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .role-container {
+                gap: 16px;
+                margin-top: 20px;
+            }
+
+            .role-card {
+                padding: 20px;
+            }
+
+            .role-card h3 {
+                font-size: 1.1rem;
+            }
+        }
+</style>
 </head>
 
 <body>

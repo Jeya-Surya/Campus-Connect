@@ -80,6 +80,51 @@
   box-shadow: 0 30px 70px rgba(0,0,0,0.2);
 }
 
+/* ===== RESPONSIVE STYLES FOR EVENTS ===== */
+@media (max-width: 767px) {
+    .action-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        margin: 40px auto;
+    }
+
+    .action-card {
+        padding: 28px;
+    }
+
+    .event-card {
+        padding: 18px;
+    }
+
+    .filters {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .filters input,
+    .filters select {
+        width: 100%;
+        padding: 12px;
+        font-size: 16px; /* Prevents zoom on iOS */
+    }
+}
+
+@media (max-width: 480px) {
+    .action-grid {
+        gap: 16px;
+        margin: 30px auto;
+    }
+
+    .action-card {
+        padding: 24px;
+    }
+
+    .event-card {
+        padding: 16px;
+    }
+}
+
+
 .event-title {
   font-size: 18px;
   font-weight: 700;

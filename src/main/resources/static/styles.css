@@ -762,5 +762,325 @@ body:not(.dark-theme) .event-card:hover {
   font-size: 1rem;
 }
 
+/* =========================
+   📱 RESPONSIVE DESIGN
+   ========================= */
+
+/* ===== TABLET (768px - 1024px) ===== */
+@media (max-width: 1024px) {
+  /* Container adjustments */
+  .container {
+    max-width: 100%;
+    padding: 0 20px 60px;
+    margin: 30px auto;
+  }
+
+  /* Header adjustments */
+  .app-header {
+    padding: 12px 20px;
+  }
+
+  .app-header h1 {
+    font-size: 1.5rem;
+  }
+
+  /* Grid layouts - 2 columns on tablet */
+  .feature-grid,
+  .home-grid,
+  .role-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  /* Event meta - single column on tablet */
+  .event-meta {
+    grid-template-columns: 1fr;
+  }
+
+  /* Cards padding reduction */
+  .post-form,
+  .card,
+  .doubt-card,
+  .event-card {
+    padding: 20px;
+  }
+
+  /* Modal adjustments */
+  .modal-content {
+    width: 85%;
+    max-width: 500px;
+  }
+}
+
+/* ===== MOBILE (max-width: 767px) ===== */
+@media (max-width: 767px) {
+  /* Body and container */
+  body {
+    font-size: 14px;
+  }
+
+  .container {
+    max-width: 100%;
+    padding: 0 16px 50px;
+    margin: 20px auto;
+  }
+
+  /* Header - Stack on mobile */
+  .app-header {
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px 16px;
+    align-items: stretch;
+  }
+
+  .app-header h1 {
+    font-size: 1.3rem;
+    text-align: center;
+  }
+
+  .header-actions,
+  .header-right {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .header-btn {
+    flex: 1 1 auto;
+    min-width: 100px;
+    padding: 8px 12px;
+    font-size: 0.85rem;
+  }
+
+  /* All grid layouts - Single column on mobile */
+  .feature-grid,
+  .home-grid,
+  .role-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  /* Cards - Reduce padding on mobile */
+  .post-form,
+  .card,
+  .doubt-card,
+  .event-card,
+  .resource-card,
+  .role-card {
+    padding: 16px;
+    margin-bottom: 20px;
+  }
+
+  /* Form elements - Better touch targets */
+  .post-form input,
+  .post-form textarea,
+  .post-form select {
+    padding: 12px;
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+
+  .post-form button {
+    padding: 12px;
+    font-size: 1rem;
+  }
+
+  /* Typography adjustments */
+  .post-form h2,
+  .page-intro h2 {
+    font-size: 1.5rem;
+  }
+
+  .post-form h3,
+  .role-card h3 {
+    font-size: 1.2rem;
+  }
+
+  .doubt-title,
+  .event-title {
+    font-size: 1.2rem;
+  }
+
+  /* Event card specifics */
+  .event-details {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .event-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .event-meta {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  /* Footer */
+  .footer {
+    padding: 12px;
+    font-size: 0.85rem;
+  }
+
+  /* Page intro */
+  .page-intro {
+    margin: 20px 0 30px;
+  }
+
+  .page-intro h2 {
+    font-size: 1.6rem;
+  }
+
+  .page-intro p {
+    font-size: 0.95rem;
+    padding: 0 10px;
+  }
+
+  /* Role section */
+  .role-section {
+    margin-top: 30px;
+  }
+
+  .role-subtitle {
+    font-size: 0.95rem;
+    padding: 0 10px;
+    margin-bottom: 30px;
+  }
+
+  /* Modal - Full width on mobile */
+  .modal-content {
+    width: 95%;
+    max-width: none;
+    margin: 10px;
+  }
+
+  /* Notification dropdown - Adjust position */
+  .notif-dropdown {
+    width: calc(100vw - 32px);
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  /* Answer form - Stack on mobile */
+  .answer-form {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .answer-form input {
+    width: 100%;
+  }
+
+  .answer-form button {
+    width: 100%;
+    padding: 12px;
+  }
+
+  /* Resource card grid */
+  .resource-card {
+    width: 100%;
+  }
+
+  /* Badge positioning */
+  .badge {
+    min-width: 20px;
+    height: 20px;
+    font-size: 11px;
+  }
+}
+
+/* ===== SMALL MOBILE (max-width: 480px) ===== */
+@media (max-width: 480px) {
+  /* Further reduce spacing */
+  .container {
+    padding: 0 12px 40px;
+    margin: 15px auto;
+  }
+
+  .app-header {
+    padding: 10px 12px;
+  }
+
+  .app-header h1 {
+    font-size: 1.1rem;
+  }
+
+  .header-btn {
+    padding: 6px 10px;
+    font-size: 0.8rem;
+    min-width: 80px;
+  }
+
+  /* Cards - More compact */
+  .post-form,
+  .card,
+  .doubt-card,
+  .event-card,
+  .resource-card,
+  .role-card,
+  .feature-card,
+  .home-card {
+    padding: 14px;
+    margin-bottom: 16px;
+  }
+
+  /* Smaller headings */
+  .post-form h2,
+  .page-intro h2 {
+    font-size: 1.3rem;
+  }
+
+  .event-title,
+  .doubt-title {
+    font-size: 1.1rem;
+  }
+
+  /* Button sizes */
+  .post-form button,
+  .view-poster-btn,
+  .event-actions button {
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+
+  /* Grid gaps */
+  .feature-grid,
+  .home-grid,
+  .role-grid {
+    gap: 12px;
+  }
+
+  /* Role icon size */
+  .role-icon {
+    font-size: 2.2rem;
+  }
+}
+
+/* ===== LANDSCAPE MOBILE (max-height: 500px) ===== */
+@media (max-height: 500px) and (orientation: landscape) {
+  .app-header {
+    padding: 8px 16px;
+  }
+
+  .app-header h1 {
+    font-size: 1.1rem;
+  }
+
+  .container {
+    margin: 10px auto;
+    padding: 0 16px 30px;
+  }
+
+  .post-form,
+  .card,
+  .event-card {
+    margin-bottom: 16px;
+    padding: 14px;
+  }
+}
 
 

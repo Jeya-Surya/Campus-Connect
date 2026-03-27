@@ -169,6 +169,40 @@
       color: var(--text-muted);
       font-size: 0.95rem;
     }
+
+    /* ===== RESPONSIVE STYLES FOR HOME PAGE ===== */
+    @media (max-width: 767px) {
+        .feature-grid {
+            gap: 16px;
+        }
+
+        .feature-card {
+            padding: 18px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+
+        .feature-card p {
+            font-size: 0.9rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .feature-card {
+            padding: 16px;
+        }
+
+        .feature-card h3 {
+            font-size: 1rem;
+        }
+
+        .feature-card p {
+            font-size: 0.85rem;
+        }
+    }
     /* 🔹 Header alignment and styling */
 .app-header {
   display: flex;

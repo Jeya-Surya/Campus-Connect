@@ -53,7 +53,50 @@
           transform: translateY(-3px);
           box-shadow: 0 8px 20px rgba(0, 123, 255, 0.2);
         }
-    </style>
+
+        /* ===== RESPONSIVE STYLES FOR ALUMNI MENTORSHIP ===== */
+        @media (max-width: 767px) {
+            .form-section {
+                margin: 30px auto;
+                padding: 20px;
+            }
+
+            .form-section h2 {
+                font-size: 1.3rem;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 14px;
+            }
+
+            .form-grid input {
+                padding: 10px 12px;
+                font-size: 16px; /* Prevents zoom on iOS */
+            }
+
+            .submit-btn {
+                padding: 11px;
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .form-section {
+                margin: 20px auto;
+                padding: 16px;
+            }
+
+            .form-section h2 {
+                font-size: 1.2rem;
+            }
+
+            .submit-btn {
+                padding: 10px;
+                font-size: 0.95rem;
+            }
+        }
+</style>
 </head>
 <body>
 <header class="app-header">

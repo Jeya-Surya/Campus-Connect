@@ -168,7 +168,175 @@
 
         /* Dark mode inline code adjustment */
         body.dark-theme .msg-content code { background: rgba(255, 255, 255, 0.15); color: #eee; }
-    </style>
+
+        /* ===== RESPONSIVE STYLES FOR GROUP ROOM ===== */
+        @media (max-width: 1024px) {
+            /* Sidebar narrower on tablet */
+            .room-sidebar {
+                width: 280px;
+                padding: 16px;
+            }
+
+            .feed-container {
+                padding: 20px 3%;
+            }
+        }
+
+        @media (max-width: 767px) {
+            /* Collapsible sidebar on mobile */
+            .room-sidebar {
+                position: fixed;
+                left: 0;
+                top: 0;
+                height: 100vh;
+                width: 280px;
+                z-index: 100;
+                padding: 16px;
+                box-shadow: 4px 0 15px rgba(0,0,0,0.2);
+            }
+
+            .room-sidebar.collapsed {
+                transform: translateX(-100%);
+            }
+
+            .room-main {
+                width: 100%;
+            }
+
+            /* Feed adjustments */
+            .feed-container {
+                padding: 15px 3%;
+                gap: 10px;
+            }
+
+            /* Message bubbles */
+            .msg-bubble {
+                max-width: 85%;
+                padding: 9px 12px;
+                font-size: 0.9rem;
+            }
+
+            .msg-content {
+                font-size: 0.9rem;
+            }
+
+            .msg-actions {
+                opacity: 1; /* Always visible on mobile */
+                position: relative;
+                top: auto;
+                left: auto !important;
+                right: auto !important;
+                transform: none;
+                margin-top: 8px;
+                justify-content: flex-start;
+            }
+
+            /* Input area */
+            .input-area {
+                padding: 12px 3%;
+                gap: 8px;
+            }
+
+            .input-area textarea {
+                padding: 10px 16px;
+                font-size: 16px; /* Prevents zoom on iOS */
+            }
+
+            .btn-send {
+                width: 44px;
+                height: 44px;
+                font-size: 1.1rem;
+            }
+
+            .btn-attach {
+                font-size: 1.3rem;
+                padding: 8px;
+            }
+
+            /* Preview bar */
+            .preview-bar {
+                padding: 8px 3%;
+                font-size: 0.8rem;
+            }
+
+            /* Sidebar components */
+            .club-header-emoji {
+                font-size: 3rem;
+            }
+
+            .club-header h2 {
+                font-size: 1.2rem;
+            }
+
+            .club-header p {
+                font-size: 0.8rem;
+            }
+
+            .sidebar-section-title {
+                font-size: 0.8rem;
+            }
+
+            .member-item {
+                padding: 8px;
+            }
+
+            .member-avatar {
+                width: 28px;
+                height: 28px;
+                font-size: 0.8rem;
+            }
+
+            .member-name {
+                font-size: 0.85rem;
+            }
+
+            .task-item {
+                padding: 7px;
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            /* Even more compact for small phones */
+            .room-sidebar {
+                width: 260px;
+                padding: 14px;
+            }
+
+            .msg-bubble {
+                max-width: 90%;
+                padding: 8px 11px;
+            }
+
+            .msg-content {
+                font-size: 0.85rem;
+            }
+
+            .input-area textarea {
+                padding: 9px 14px;
+            }
+
+            .btn-send {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+
+            .club-header-emoji {
+                font-size: 2.5rem;
+            }
+
+            .msg-image {
+                max-height: 180px;
+            }
+
+            .action-icon {
+                width: 28px;
+                height: 28px;
+                font-size: 0.85rem;
+            }
+        }
+</style>
 </head>
 
 <body>
