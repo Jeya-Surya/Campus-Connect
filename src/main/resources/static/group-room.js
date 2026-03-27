@@ -29,11 +29,12 @@ const groupId = urlParams.get('id');
 
 if(!groupId) { alert("No Club ID provided."); window.location.href = "studygroups.html"; }
 
-// Sidebar Toggle with overlay for mobile
-document.getElementById("sidebarToggle").addEventListener("click", () => {
-    const sidebar = document.getElementById("sidebar");
-    const overlay = document.getElementById("sidebarOverlay");
+const sidebar = document.getElementById("sidebar");
+const overlay = document.getElementById("sidebarOverlay");
+const sidebarToggle = document.getElementById("sidebarToggle");
 
+// Sidebar Toggle with overlay for mobile
+sidebarToggle.addEventListener("click", () => {
     sidebar.classList.toggle("collapsed");
 
     // Toggle overlay on mobile (if viewport is small)
@@ -43,10 +44,23 @@ document.getElementById("sidebarToggle").addEventListener("click", () => {
 });
 
 // Close sidebar when clicking overlay on mobile
-document.getElementById("sidebarOverlay").addEventListener("click", () => {
-    document.getElementById("sidebar").classList.add("collapsed");
-    document.getElementById("sidebarOverlay").classList.remove("active");
+overlay.addEventListener("click", () => {
+    sidebar.classList.add("collapsed");
+    overlay.classList.remove("active");
 });
+
+// Ensure sidebar starts collapsed on mobile and resets when resizing
+function syncSidebarToViewport() {
+    if (window.innerWidth <= 767) {
+        sidebar.classList.add("collapsed");
+        overlay.classList.remove("active");
+    } else {
+        sidebar.classList.remove("collapsed");
+        overlay.classList.remove("active");
+    }
+}
+syncSidebarToViewport();
+window.addEventListener("resize", syncSidebarToViewport);
 
 // Helper: Safely Parse Spring Boot LocalDateTime
 function parseSpringDate(dateData) {
