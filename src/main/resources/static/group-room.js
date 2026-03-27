@@ -29,9 +29,23 @@ const groupId = urlParams.get('id');
 
 if(!groupId) { alert("No Club ID provided."); window.location.href = "studygroups.html"; }
 
-// Sidebar Toggle
+// Sidebar Toggle with overlay for mobile
 document.getElementById("sidebarToggle").addEventListener("click", () => {
-    document.getElementById("sidebar").classList.toggle("collapsed");
+    const sidebar = document.getElementById("sidebar");
+    const overlay = document.getElementById("sidebarOverlay");
+
+    sidebar.classList.toggle("collapsed");
+
+    // Toggle overlay on mobile (if viewport is small)
+    if (window.innerWidth <= 767) {
+        overlay.classList.toggle("active");
+    }
+});
+
+// Close sidebar when clicking overlay on mobile
+document.getElementById("sidebarOverlay").addEventListener("click", () => {
+    document.getElementById("sidebar").classList.add("collapsed");
+    document.getElementById("sidebarOverlay").classList.remove("active");
 });
 
 // Helper: Safely Parse Spring Boot LocalDateTime
