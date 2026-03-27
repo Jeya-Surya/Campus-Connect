@@ -116,7 +116,70 @@
         .rh-full { grid-column: 1 / -1; }
 
         .rh-btn-muted { background: transparent; color: var(--text-muted); border: 2px solid var(--border-light); padding: 12px 25px; border-radius: 12px; cursor: pointer; }
-    </style>
+
+        /* ===== RESPONSIVE STYLES FOR RESOURCE HUB ===== */
+        @media (max-width: 767px) {
+            /* Form grid - Single column on mobile */
+            .rh-form-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            /* Panel padding */
+            .rh-panel {
+                padding: 20px;
+                margin-bottom: 20px;
+            }
+
+            /* Resource card - Already responsive from existing @media */
+            .resource-card {
+                padding: 18px;
+                min-width: auto;
+            }
+
+            .resource-card h4 {
+                font-size: 1.15rem;
+            }
+
+            /* Buttons */
+            .btn-download,
+            .rh-btn-muted {
+                padding: 10px 20px;
+                font-size: 0.95rem;
+            }
+
+            /* Inputs - Better touch targets */
+            .modern-input {
+                padding: 12px;
+                font-size: 16px; /* Prevents zoom on iOS */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .rh-panel {
+                padding: 16px;
+                border-radius: 16px;
+            }
+
+            .resource-card {
+                padding: 16px;
+                border-radius: 16px;
+            }
+
+            .resource-card h4 {
+                font-size: 1.1rem;
+            }
+
+            .resource-badge {
+                font-size: 0.8rem;
+                padding: 5px 12px;
+            }
+
+            .btn-download {
+                padding: 10px 18px;
+            }
+        }
+</style>
 </head>
 <body class="dark-theme">
 

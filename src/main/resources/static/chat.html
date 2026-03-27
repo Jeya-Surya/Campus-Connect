@@ -247,6 +247,130 @@
             color: #4f46e5;
         }
 
+        /* ===== RESPONSIVE CHAT STYLES ===== */
+        @media (max-width: 767px) {
+            /* Chat header - Reduce padding */
+            .chat-header {
+                padding: 10px 12px;
+            }
+
+            .header-left {
+                gap: 8px;
+            }
+
+            .avatar {
+                width: 36px;
+                height: 36px;
+                font-size: 14px;
+            }
+
+            .name {
+                font-size: 14px;
+            }
+
+            .status {
+                font-size: 11px;
+            }
+
+            .header-btn {
+                padding: 6px 10px;
+                font-size: 11px;
+            }
+
+            /* Message bubbles - Increase max-width on mobile */
+            .msg-row {
+                max-width: 85%;
+            }
+
+            .msg-bubble {
+                padding: 8px 10px 6px;
+                font-size: 14px;
+            }
+
+            .msg-text {
+                font-size: 13px;
+            }
+
+            .msg-image {
+                width: 180px;
+            }
+
+            /* Chat body - Adjust padding */
+            .chat-body {
+                padding: 12px;
+                gap: 10px;
+            }
+
+            /* Input area - Adjust for mobile */
+            .chat-input-wrap {
+                padding: 8px 10px;
+            }
+
+            .chat-input input[type="text"] {
+                padding: 10px 14px;
+                font-size: 16px; /* Prevents zoom on iOS */
+            }
+
+            .send-btn {
+                width: 40px;
+                height: 40px;
+            }
+
+            .attach-btn {
+                font-size: 20px;
+            }
+
+            /* Message actions - Make more accessible on mobile */
+            .msg-actions {
+                opacity: 1; /* Always visible on mobile */
+                position: relative;
+                top: auto;
+                right: auto;
+                margin-top: 4px;
+            }
+
+            .action-btn {
+                font-size: 10px;
+                padding: 4px 8px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            /* Even more compact for small phones */
+            .chat-header {
+                padding: 8px 10px;
+            }
+
+            .name {
+                font-size: 13px;
+            }
+
+            .header-btn {
+                padding: 5px 8px;
+                font-size: 10px;
+            }
+
+            .msg-row {
+                max-width: 90%;
+            }
+
+            .msg-bubble {
+                padding: 7px 9px 5px;
+            }
+
+            .msg-text {
+                font-size: 12px;
+            }
+
+            .msg-image {
+                width: 150px;
+            }
+
+            .chat-body {
+                padding: 10px;
+            }
+        }
+
         .msg-row.left .action-btn {
             background: rgba(108, 99, 255, 0.14);
         }
