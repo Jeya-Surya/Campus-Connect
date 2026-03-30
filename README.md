@@ -32,6 +32,19 @@ Configuration lives in `src/main/resources/application.properties`.
 ./mvnw spring-boot:run
 ```
 
+## React Frontend (migration in progress)
+The `frontend/` directory contains the new React SPA replacing the legacy static pages.
+
+```bash
+cd frontend
+npm install
+npm start            # dev server
+npm run build        # production build
+npm test -- --watch=false
+```
+
+Current React routes include login, registration, home, and the Doubt Desk flow. Legacy static pages remain under `src/main/resources/static` until the migration is complete.
+
 ## Tests
 ```bash
 ./mvnw test
