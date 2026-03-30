@@ -32,6 +32,26 @@ Configuration lives in `src/main/resources/application.properties`.
 ./mvnw spring-boot:run
 ```
 
+## React Frontend (migration in progress)
+The `frontend/` directory contains the new React SPA replacing the legacy static pages.
+
+```bash
+cd frontend
+npm install
+npm start            # dev server
+npm run build        # production build
+npm test -- --watch=false
+```
+
+Current React routes include login, registration, home, Doubt Desk, Project Compass (with join flow), Study Groups (with club rooms and room chat), Events, Resource Hub, Mentorship (student + alumni dashboards, onboarding, chats), and recent chats. Legacy static pages remain under `src/main/resources/static` until the migration is complete.
+
+### Building with Maven
+The Maven build now runs the React build automatically (via `frontend-maven-plugin`) and copies the compiled assets into `src/main/resources/static` so Spring Boot serves the SPA.
+
+```bash
+./mvnw package   # installs Node/npm in frontend/, npm install, npm run build, then packages Spring Boot with the built assets
+```
+
 ## Tests
 ```bash
 ./mvnw test
