@@ -43,7 +43,7 @@ npm run build        # production build
 npm test -- --watch=false
 ```
 
-Current React routes include login, registration, home, Doubt Desk, Project Compass (with join flow), Study Groups (with club rooms), Events, and Resource Hub. Legacy static pages remain under `src/main/resources/static` until the migration is complete.
+Current React routes include login, registration, home, Doubt Desk, Project Compass (with join flow), Study Groups (with club rooms and room chat), Events, Resource Hub, Mentorship (student + alumni dashboards, onboarding, chats), and recent chats. Legacy static pages remain under `src/main/resources/static` until the migration is complete.
 
 ### Building with Maven
 The Maven build now runs the React build automatically (via `frontend-maven-plugin`) and copies the compiled assets into `src/main/resources/static` so Spring Boot serves the SPA.
