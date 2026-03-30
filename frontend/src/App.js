@@ -6,7 +6,12 @@ import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import DoubtDeskPage from './pages/DoubtDeskPage';
-import PlaceholderPage from './pages/PlaceholderPage';
+import ProjectCompassPage from './pages/ProjectCompassPage';
+import JoinProjectPage from './pages/JoinProjectPage';
+import StudyGroupsPage from './pages/StudyGroupsPage';
+import GroupRoomPage from './pages/GroupRoomPage';
+import EventsPage from './pages/EventsPage';
+import ResourceHubPage from './pages/ResourceHubPage';
 
 function Protected({ children }) {
   const { user } = useAuth();
@@ -39,15 +44,15 @@ function AppRoutes() {
         path="/projectcompass"
         element={
           <Protected>
-            <PlaceholderPage title="🧭 Project Compass" />
+            <ProjectCompassPage />
           </Protected>
         }
       />
       <Route
-        path="/resourcehub"
+        path="/join-project/:projectId"
         element={
           <Protected>
-            <PlaceholderPage title="📚 Resource Hub" />
+            <JoinProjectPage />
           </Protected>
         }
       />
@@ -55,15 +60,15 @@ function AppRoutes() {
         path="/studygroups"
         element={
           <Protected>
-            <PlaceholderPage title="👥 Study Groups" />
+            <StudyGroupsPage />
           </Protected>
         }
       />
       <Route
-        path="/mentorship"
+        path="/group-room/:id"
         element={
           <Protected>
-            <PlaceholderPage title="🎓 Mentorship" />
+            <GroupRoomPage />
           </Protected>
         }
       />
@@ -71,7 +76,15 @@ function AppRoutes() {
         path="/events"
         element={
           <Protected>
-            <PlaceholderPage title="📅 Campus Events" />
+            <EventsPage />
+          </Protected>
+        }
+      />
+      <Route
+        path="/resourcehub"
+        element={
+          <Protected>
+            <ResourceHubPage />
           </Protected>
         }
       />
