@@ -1,70 +1,95 @@
-# CampusConnect
+# 🎓 Campus Connect
 
-CampusConnect is a Spring Boot application that brings students, alumni, and mentors together with study groups, real-time style chat rooms, project collaboration (Project Compass), events, resources, and mentorship flows—all served from a single backend with lightweight static front-end pages.
+**Campus Connect** is a comprehensive student collaboration platform designed to bridge the gap between students, alumni, and campus resources. It provides a unified ecosystem for project collaboration, mentorship, academic resource sharing, and campus event management.
 
-## Features
-- Study groups with chat, task lists, file sharing, and dark mode.
-- Project Compass for proposing, joining, and managing projects.
-- Mentorship spaces for students and alumni, plus request tracking.
-- Events, resource hub, doubt desk, and recent chats pages.
-- Theme toggle (light/dark) and responsive UI tailored for mobile, tablet, and desktop.
+## 🚀 Features
 
-## Tech Stack
-- Java 17, Spring Boot
-- PostgreSQL (configurable via environment variables)
-- Maven for builds/tests
-- Static HTML/CSS/JS served from `src/main/resources/static`
+### 1. 🧭 Project Compass
+Collaborate on academic projects and build your portfolio.
+* **Create Projects:** Students can post project ideas with required skills.
+* **Team Formation:** Users can apply to join teams, and owners can manage applications (Accept/Reject).
+* **Role-Based Actions:** Project owners have exclusive controls (Delete, Manage Team), while applicants can view and join.
+* **Smart Notifications:** Real-time alerts for join requests.
 
-## Prerequisites
-- Java 17+
-- Maven (wrapper included)
-- PostgreSQL instance and credentials
+### 2. 🎓 Mentorship Program
+Connect current students with experienced alumni.
+* **Dual Roles:** Separate dashboards for **Students** and **Alumni**.
+* **Alumni Onboarding:** Alumni can create profiles highlighting their expertise, company, and help areas.
+* **Request System:** Students can browse mentors and send specific requests (Career Guidance, Referrals, etc.).
+* **Status Tracking:** Track request status (Pending, Accepted, Rejected) in real-time.
 
-## Configuration
-Set the following environment variables before running the app:
-- `PGHOST`, `PGPORT`, `PGDATABASE`, `PGUSER`, `PGPASSWORD` — PostgreSQL connection
-- `PORT` — optional HTTP port (defaults to `8080`)
+### 3. 💬 Doubt Desk
+A peer-to-peer Q&A forum.
+* **Ask & Answer:** Students can post academic doubts and receive answers from peers.
+* **Community Driven:** Foster a culture of knowledge sharing.
 
-Configuration lives in `src/main/resources/application.properties`.
+### 4. 📚 Resource Hub
+A centralized repository for study materials.
+* **Upload/Download:** Share notes, question papers, and study guides.
+* **Search & Filter:** Find resources by subject, semester, or college.
 
-## Run Locally
+### 5. 📅 Campus Events
+Stay updated with university happenings.
+* **Event Calendar:** View upcoming workshops, seminars, and club activities.
+* **Filtering:** Filter events by category (Academic, Sports, Cultural) or date.
+
+### 6. 💬 Real-Time Chat
+* **WebSocket Integration:** Instant messaging between students and mentors once a connection is established.
+* **WhatsApp-style UI:** Modern, responsive chat interface with history support.
+
+---
+
+## 🛠️ Tech Stack
+
+### Frontend
+* **HTML5 & CSS3:** Modern, responsive design with **Glassmorphism** effects.
+* **JavaScript (ES6+):** Dynamic DOM manipulation, Fetch API for backend communication.
+* **Theme Support:** Built-in **Dark Mode / Light Mode** toggle with local storage persistence.
+
+### Backend
+* **Java Spring Boot:** RESTful API architecture.
+* **Spring Data JPA:** Database interaction and object-relational mapping.
+* **WebSocket (Stomp/SockJS):** Real-time bi-directional communication for chat.
+* **Database:** (MySQL / PostgreSQL / H2 - *Update based on your config*)
+
+---
+
+## ⚙️ Installation & Setup
+
+### Prerequisites
+* Java JDK 17+
+* Maven
+* Postgresql
+
+### Backend Setup
+1.  Clone the repository:
+    ```bash
+    git clone [https://github.com/yourusername/campus-connect.git](https://github.com/yourusername/campus-connect.git)
+    ```
+2.  Navigate to the backend directory and configure `src/main/resources/application.properties` with your database credentials.
+3.  Run the application:
+    ```bash
+    mvn spring-boot:run
+    ```
+4.  The server will start at `http://localhost:8080`.
+
+### Frontend Setup
+1.  The frontend is designed to be served statically or via the Spring Boot `static` resources folder.
+2.  Open `index.html` or `login.html` in your browser (or access via `http://localhost:8080/login.html` if integrated).
+
+---
+
+## 📂 Project Structure
+
 ```bash
-./mvnw spring-boot:run
-```
-
-## React Frontend (migration in progress)
-The `frontend/` directory contains the new React SPA replacing the legacy static pages.
-
-```bash
-cd frontend
-npm install
-npm start            # dev server
-npm run build        # production build
-npm test -- --watch=false
-```
-
-Current React routes include login, registration, home, Doubt Desk, Project Compass (with join flow), Study Groups (with club rooms and room chat), Events, Resource Hub, Mentorship (student + alumni dashboards, onboarding, chats), and recent chats. Legacy static pages remain under `src/main/resources/static` until the migration is complete.
-
-### Building with Maven
-The Maven build now runs the React build automatically (via `frontend-maven-plugin`) and copies the compiled assets into `src/main/resources/static` so Spring Boot serves the SPA.
-
-```bash
-./mvnw package   # installs Node/npm in frontend/, npm install, npm run build, then packages Spring Boot with the built assets
-```
-
-## Tests
-```bash
-./mvnw test
-```
-Tests require access to the configured PostgreSQL database. If connection variables are missing, the Spring context will fail to start.
-
-## Build
-```bash
-./mvnw package
-```
-The packaged JAR will appear under `target/`.
-
-## Project Structure
-- `src/main/java` — Spring Boot application code
-- `src/main/resources/static` — UI pages (HTML/CSS/JS) and assets
-- `src/main/resources/application.properties` — environment-driven configuration
+campus-connect/
+├── src/
+│   ├── main/
+│   │   ├── java/com/campusconnect/
+│   │   │   ├── ProjectCompass/      # Project logic
+│   │   │   ├── Mentorship/          # Mentorship logic
+│   │   │   └── ...
+│   │   └── resources/
+│   │       ├── static/              # HTML, CSS, JS files
+│   │       └── application.properties
+└── pom.xml
