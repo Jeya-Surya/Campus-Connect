@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    container_name: campusconnect-db
+    environment:
+      POSTGRES_DB: campusconnect
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 0000
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  app:
+    image: campusconnect
+    container_name: campusconnect-app
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/campusconnect
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: 0000
+    depends_on:
+      - db
+
+volumes:
+  pgdata:
