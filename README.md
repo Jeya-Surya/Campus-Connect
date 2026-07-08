@@ -2,6 +2,10 @@
 
 **Campus Connect** is a comprehensive student collaboration platform designed to bridge the gap between students, alumni, and campus resources. It provides a unified ecosystem for project collaboration, mentorship, academic resource sharing, and campus event management.
 
+## 🌐 Live Demo
+
+🔗 **[Campus Connect](https://campus-connect-be4d.onrender.com)**
+
 ## 🚀 Features
 
 ### 1. 🧭 Project Compass
